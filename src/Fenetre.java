@@ -15,9 +15,9 @@ public class Fenetre extends JFrame{
 
 	public Fenetre(){
 		this.setTitle("Ma première fenêtre Java");
-	    //taille
+	    //Taille de la fenetre
 		this.setSize(600, 600);
-	    //position
+	    //Position de la fenetre lors de son ouverture
 	    this.setLocation(300, 400);
 	    plateau();
 	    menu();
@@ -25,7 +25,7 @@ public class Fenetre extends JFrame{
 	
 	public void plateau(){
 		
-	    //couleur fond
+	    //Couleur fond
 	    this.setBackground(Color.LIGHT_GRAY);
 	    //On prévient notre JFrame que notre JPanel sera son content pane
 	    this.setContentPane(new Grille());               

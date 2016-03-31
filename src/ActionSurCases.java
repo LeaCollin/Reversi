@@ -1,4 +1,4 @@
-package Reversi;
+
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -6,9 +6,9 @@ import java.awt.event.MouseListener;
 public class ActionSurCases implements MouseListener{
 
 	private Case c;
-	private Plateau plateau;
+	private Fenetre plateau;
 	
-	public ActionSurCases(Case c, Plateau plateau) {
+	public ActionSurCases(Case c, Fenetre plateau) {
 		
 		this.c = c;
 		this.plateau = plateau;

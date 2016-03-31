@@ -1,14 +1,14 @@
-package Reversi;
+
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouvementsPion implements MouseListener {
 		
-	private Plateau plateau;
+	private Fenetre plateau;
 	private Pion pion;
 	
-	public MouvementsPion(Plateau plateau, Pion pion) {
+	public MouvementsPion(Fenetre plateau, Pion pion) {
 		this.plateau = plateau;
 		this.pion = pion;
 	}
