@@ -6,10 +6,10 @@ import java.awt.event.MouseListener;
 public class ActionSurCases implements MouseListener{
 
 	private Case c;
-	private Fenetre plateau;
+	private Plateau plateau;
 	
-	public ActionSurCases(Case c, Fenetre plateau) {
-		
+	public ActionSurCases(Case c, Plateau plateau) {
+		super();
 		this.c = c;
 		this.plateau = plateau;
 	}

@@ -1,9 +1,7 @@
-import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class Fenetre extends JFrame{
 	
@@ -14,23 +12,15 @@ public class Fenetre extends JFrame{
 	private JMenu Quitter = new JMenu("Quitter");
 
 	public Fenetre(){
-		this.setTitle("Ma première fenêtre Java");
+		this.setTitle("Il y en a marre !!!");
 	    //Taille de la fenetre
 		this.setSize(600, 600);
 	    //Position de la fenetre lors de son ouverture
 	    this.setLocation(300, 400);
-	    plateau();
+	    add(new Plateau(8));
 	    menu();
 	}
 	
-	public void plateau(){
-		
-	    //Couleur fond
-	    this.setBackground(Color.LIGHT_GRAY);
-	    //On prévient notre JFrame que notre JPanel sera son content pane
-	    this.setContentPane(new Grille());               
-	    this.setVisible(true);
-    }
 	 public void menu(){
 		//On initialise nos menus      
 		 this.Jeu.add(Recommencer);    
@@ -41,4 +31,7 @@ public class Fenetre extends JFrame{
 		 this.setJMenuBar(menuBar);
 		 this.setVisible(true);
 	 }
+	
 }
+
+

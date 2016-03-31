@@ -5,10 +5,10 @@ import java.awt.event.MouseListener;
 
 public class MouvementsPion implements MouseListener {
 		
-	private Fenetre plateau;
+	private Plateau plateau;
 	private Pion pion;
 	
-	public MouvementsPion(Fenetre plateau, Pion pion) {
+	public MouvementsPion(Plateau plateau, Pion pion) {
 		this.plateau = plateau;
 		this.pion = pion;
 	}
