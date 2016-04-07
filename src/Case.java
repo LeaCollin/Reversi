@@ -24,7 +24,7 @@ public class Case extends JPanel{
 		this.j = j;
         setLayout(new GridLayout(1,0));
         this.couleur=couleur;
-        //initCouleur();
+        initCouleur();
     }
 
     public int getI() {
@@ -58,7 +58,7 @@ public class Case extends JPanel{
             setForeground(Color.LIGHT_GRAY);
         }
         else {
-            initCouleur();
+            //initCouleur();
         }
     }
     

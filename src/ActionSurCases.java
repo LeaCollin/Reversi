@@ -1,5 +1,3 @@
-
-
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,7 +14,9 @@ public class ActionSurCases implements MouseListener{
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+
+	public void mouseClicked(MouseEvent e) {		
+   
 
 	}
 
@@ -34,6 +34,7 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+
 		plateau.selectionnerCases(c.getI(), c.getJ());;	
 		Pion pion = new Pion(Couleur.Blanc);
 		if (c.getComponentCount()!=0){
@@ -41,14 +42,23 @@ public class ActionSurCases implements MouseListener{
 	        System.out.println(b);
 		}
         System.out.println(c.isSelectionnee());
+
+		c.setBackground(Color.BLUE);
+        c.setForeground(Color.LIGHT_GRAY);
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+
 		if(c.isSelectionnee()){
             plateau.afficherPion(c);
         }
 		c.setSelectionnee(false);
+
+		c.initCouleur();
+		
+
 	}
 	
 	

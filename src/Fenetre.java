@@ -1,17 +1,20 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class Fenetre extends JFrame{
+public class Fenetre extends JFrame {
 	
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu Jeu = new JMenu("Jeu");
 	private JMenuItem Recommencer = new JMenuItem("Recommencer");
-	private JMenu Quitter = new JMenu("Quitter");
+	private JMenuItem Quitter = new JMenuItem("Quitter");
 
 	public Fenetre(){
-		this.setTitle("Il y en a marre !!!");
+		this.setTitle("Reversi");
 	    //Taille de la fenetre
 		this.setSize(600, 600);
 	    //Position de la fenetre lors de son ouverture
@@ -23,13 +26,11 @@ public class Fenetre extends JFrame{
 	 public void menu(){
 		//On initialise nos menus      
 		 this.Jeu.add(Recommencer);   
-		 //Ajout des menus de gauche à droite
+		 //Ajout des menus de gauche ï¿½ droite
 		 this.menuBar.add(Jeu);
 		 this.menuBar.add(Quitter);
 		 this.setJMenuBar(menuBar);
 		 this.setVisible(true);
 	 }
-	
+	 
 }
-
-
