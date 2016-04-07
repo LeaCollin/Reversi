@@ -19,12 +19,11 @@ public class Case extends JPanel{
 	private int i; // ligne
 	private int j; //colonne
 
-	public Case(Couleur couleur, int i, int j){
+	public Case(int i, int j){
 		this.i = i;
 		this.j = j;
         setLayout(new GridLayout(1,0));
-        this.couleur=couleur;
-        initCouleur();
+        //initCouleur();
     }
 
     public int getI() {
@@ -58,12 +57,11 @@ public class Case extends JPanel{
             setForeground(Color.LIGHT_GRAY);
         }
         else {
-            //initCouleur();
+            initCouleur();
         }
     }
     
-    void initCouleur(){
-    	setOpaque(true);
+    public void initCouleur(){
     	setBackground(Color.RED);
     	setForeground(Color.BLACK);
     	Border blackline = BorderFactory.createLineBorder(Color.black,1); 
@@ -81,7 +79,7 @@ public class Case extends JPanel{
             System.out.println("Error");
             return;
         }
-        paint = new GradientPaint(0,0, getBackground(), getWidth(), getHeight(), getForeground());
+        paint = new GradientPaint(0,0, Color.RED, getWidth(), getHeight(), Color.BLACK);
         g2d.setPaint(paint);
         g.fillRect(0, 0, getWidth(), getHeight());
     }

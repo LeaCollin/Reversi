@@ -40,23 +40,22 @@ public class ActionSurCases implements MouseListener{
 		if (c.getComponentCount()!=0){
 			boolean b = c.getComponent(0).equals(pion);
 	        System.out.println(b);
+	        //System.out.print(c.getComponent(0));
 		}
         System.out.println(c.isSelectionnee());
-
-		c.setBackground(Color.BLUE);
-        c.setForeground(Color.LIGHT_GRAY);
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		
 		if(c.isSelectionnee()){
             plateau.afficherPion(c);
         }
 		c.setSelectionnee(false);
 
-		c.initCouleur();
+		System.out.println("tamere");
+		//c.initCouleur();
 		
 
 	}

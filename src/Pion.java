@@ -10,7 +10,7 @@ public class Pion extends JPanel {
 		
 	private Couleur couleur;
 	private Case emplacement;
-
+	
 	public Pion(Couleur couleur, Case emplacement) {
 		this.couleur = couleur;
 		this.emplacement = emplacement;

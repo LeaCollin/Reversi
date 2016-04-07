@@ -1,8 +1,6 @@
-import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
+
 
 public class Plateau extends JPanel{
 
@@ -13,18 +11,18 @@ public class Plateau extends JPanel{
         for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
                 if((j%2==0 && i%2==0) || (j%2!=0 && i%2!=0)){
-                    ajouterCase(Couleur.Noir, i, j);
+                    ajouterCase(i, j);
                 }
                 else{
-                    ajouterCase(Couleur.Blanc, i, j);
+                    ajouterCase(i, j);
                 }
             }
         }
         init();
     }
 	
-	 private void ajouterCase(Couleur color, int i, int j){
-		 Case case1 = new Case(color, i, j);
+	 private void ajouterCase(int i, int j){
+		 Case case1 = new Case(i, j);
 	     case1.addMouseListener(new ActionSurCases(case1, this));
 	     add(case1);
 	 }
@@ -41,7 +39,7 @@ public class Plateau extends JPanel{
 		}
 		
 		else {
-			Pion p = new Pion(Couleur.Blanc); 
+			Pion p = new Pion(Couleur.Blanc);
 			getCase(c.getI(),c.getJ()).add(p);
 			System.out.println(c.getComponent(0).equals(p));
 			System.out.println("F");
@@ -58,7 +56,7 @@ public class Plateau extends JPanel{
 	}
 	
 	public void selectionnerCases(int i, int j){
-		caseActive = getCase(i,j);
+		caseActive = getCase(3,3);
 		getCase(i, j).setSelectionnee(true);
 		
 	}

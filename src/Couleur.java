@@ -1,6 +1,4 @@
-
-
-public enum Couleur {
-	Blanc,
-	Noir,
-}
+	public enum Couleur {
+		Blanc,
+		Noir,	
+	}
