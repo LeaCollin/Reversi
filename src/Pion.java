@@ -24,12 +24,12 @@ public class Pion extends JPanel {
         setOpaque(false);
         switch (couleur) {
         case Blanc :
-            setForeground(Color.WHITE);
+            setForeground(Color.LIGHT_GRAY);
             setBackground(Color.WHITE);
             break;
         case Noir :
-            setForeground(Color.BLACK);
-            setBackground(Color.BLACK);
+            setForeground(Color.BLUE);
+            setBackground(Color.CYAN);
             break;
         }
     }

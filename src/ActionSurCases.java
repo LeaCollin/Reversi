@@ -1,5 +1,6 @@
 
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -15,9 +16,15 @@ public class ActionSurCases implements MouseListener{
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseClicked(MouseEvent e) {		
+		c.setSelectionnee(true);
+		if(c.isSelectionnee()){
+        	c.setBackground(Color.BLUE);
+            c.setForeground(Color.LIGHT_GRAY);
+        }
+        else {
+            c.initCouleur();
+        }
 	}
 
 	@Override
@@ -34,7 +41,6 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -8,7 +8,6 @@ public class Fenetre extends JFrame{
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu Jeu = new JMenu("Jeu");
 	private JMenuItem Recommencer = new JMenuItem("Recommencer");
-	private JMenuItem Enregistrer = new JMenuItem("Enregistrer");
 	private JMenu Quitter = new JMenu("Quitter");
 
 	public Fenetre(){
@@ -23,8 +22,7 @@ public class Fenetre extends JFrame{
 	
 	 public void menu(){
 		//On initialise nos menus      
-		 this.Jeu.add(Recommencer);    
-		 this.Jeu.add(Enregistrer);
+		 this.Jeu.add(Recommencer);   
 		 //Ajout des menus de gauche à droite
 		 this.menuBar.add(Jeu);
 		 this.menuBar.add(Quitter);

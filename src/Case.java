@@ -15,6 +15,7 @@ public class Case extends JPanel{
 
 	private boolean selectionnee;
 	private Couleur couleur;
+	private Plateau plateau;
 
 	public Case(Couleur couleur){
         setLayout(new GridLayout(1,0));
@@ -32,18 +33,11 @@ public class Case extends JPanel{
 
     public void setSelectionnee(boolean selectionnee) {
         this.selectionnee = selectionnee;
-        if(selectionnee){
-            setBackground(Color.BLUE);
-            setForeground(Color.LIGHT_GRAY);
-        }
-        else {
-            initCouleur();
-        }
     }
     
-    private void initCouleur(){
-       setBackground(Color.WHITE);
-       setForeground(new Color(200, 200, 200));
+    void initCouleur(){
+       setBackground(Color.RED);
+       setForeground(Color.BLACK);
        Border blackline = BorderFactory.createLineBorder(Color.black,1); 
        setBorder(blackline);
     }

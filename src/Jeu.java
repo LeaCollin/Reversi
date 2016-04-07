@@ -14,6 +14,7 @@ public class Jeu extends JFrame {
 	plat.setVisible(true);
 	}
 	
+	
 	public static void main(String args[]){
 		Jeu test = new Jeu();
 		test.setDefaultCloseOperation(EXIT_ON_CLOSE);

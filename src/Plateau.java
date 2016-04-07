@@ -1,9 +1,12 @@
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
 public class Plateau extends JPanel{
 
+	private Case c;
+	
 	public Plateau(int taille){
 		setLayout(new GridLayout(taille, taille));
         for(int i=0; i<taille; i++){
@@ -30,7 +33,7 @@ public class Plateau extends JPanel{
 	     getCase(28).add(creerPion(Couleur.Blanc, true));
 	     getCase(35).add(creerPion(Couleur.Blanc, false));
 	     getCase(36).add(creerPion(Couleur.Noir, true));
-	}
+	 }
 	
 	public Case getCase(int i, int j){
 	    return (Case) getComponent(j+i*8);
@@ -40,7 +43,7 @@ public class Plateau extends JPanel{
 		return (Case) getComponent(i);
 	}
 		 
-	private Pion creerPion(Couleur couleur, boolean monte){
+	Pion creerPion(Couleur couleur, boolean monte){
 		Pion pion = new Pion(couleur, monte);
 	    pion.addMouseListener(new MouvementsPion(this, pion));
 	    return pion;
