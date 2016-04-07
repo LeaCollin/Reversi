@@ -16,15 +16,8 @@ public class ActionSurCases implements MouseListener{
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {		
-		c.setSelectionnee(true);
-		if(c.isSelectionnee()){
-        	c.setBackground(Color.BLUE);
-            c.setForeground(Color.LIGHT_GRAY);
-        }
-        else {
-            c.initCouleur();
-        }
+	public void mouseClicked(MouseEvent e) {
+
 	}
 
 	@Override
@@ -41,13 +34,21 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		plateau.selectionnerCases(c.getI(), c.getJ());;	
+		Pion pion = new Pion(Couleur.Blanc);
+		if (c.getComponentCount()!=0){
+			boolean b = c.getComponent(0).equals(pion);
+	        System.out.println(b);
+		}
+        System.out.println(c.isSelectionnee());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(c.isSelectionnee()){
+            plateau.afficherPion(c);
+        }
+		c.setSelectionnee(false);
 	}
 	
 	

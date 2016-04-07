@@ -4,19 +4,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 
-public class Jeu extends JFrame {
-	
-	
-	
-	//Pour creer une fenetre "externe" :
-	public Jeu(){
-	Fenetre plat = new Fenetre();
-	plat.setVisible(true);
-	}
-	
-	
+public class Jeu {
+		
 	public static void main(String args[]){
-		Jeu test = new Jeu();
-		test.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		Fenetre fenetre = new Fenetre();
+		fenetre.isVisible();
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

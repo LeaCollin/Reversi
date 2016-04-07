@@ -16,14 +16,34 @@ public class Case extends JPanel{
 	private boolean selectionnee;
 	private Couleur couleur;
 	private Plateau plateau;
+	private int i; // ligne
+	private int j; //colonne
 
-	public Case(Couleur couleur){
+	public Case(Couleur couleur, int i, int j){
+		this.i = i;
+		this.j = j;
         setLayout(new GridLayout(1,0));
         this.couleur=couleur;
-        initCouleur();
+        //initCouleur();
     }
 
-    public Couleur getCouleur() {
+    public int getI() {
+		return i;
+	}
+
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	public int getJ() {
+		return j;
+	}
+
+	public void setJ(int j) {
+		this.j = j;
+	}
+
+	public Couleur getCouleur() {
         return couleur;
     }
 
@@ -32,14 +52,22 @@ public class Case extends JPanel{
     }
 
     public void setSelectionnee(boolean selectionnee) {
-        this.selectionnee = selectionnee;
+    	this.selectionnee = selectionnee;
+        if(selectionnee){
+            setBackground(Color.BLUE);
+            setForeground(Color.LIGHT_GRAY);
+        }
+        else {
+            initCouleur();
+        }
     }
     
     void initCouleur(){
-       setBackground(Color.RED);
-       setForeground(Color.BLACK);
-       Border blackline = BorderFactory.createLineBorder(Color.black,1); 
-       setBorder(blackline);
+    	setOpaque(true);
+    	setBackground(Color.RED);
+    	setForeground(Color.BLACK);
+    	Border blackline = BorderFactory.createLineBorder(Color.black,1); 
+    	setBorder(blackline);
     }
     
     @Override

@@ -10,16 +10,13 @@ public class Pion extends JPanel {
 		
 	private Couleur couleur;
 	private Case emplacement;
-	private boolean monte;
 
-	public Pion(Couleur couleur, Case emplacement, boolean monte) {
+	public Pion(Couleur couleur, Case emplacement) {
 		this.couleur = couleur;
 		this.emplacement = emplacement;
-		this.monte = monte;
 	}
 	
-	public Pion(Couleur couleur, boolean monte) {
-        this.monte=monte;
+	public Pion(Couleur couleur) {
         this.couleur = couleur;
         setOpaque(false);
         switch (couleur) {
@@ -51,17 +48,7 @@ public class Pion extends JPanel {
 
     }
 
-	public Pion(Couleur couleur) {
-		this.couleur = couleur;
-	}
-	
-	public boolean isMonte() {
-        return monte;
-    }
 
-    public void setMonte(boolean monte) {
-        this.monte = monte;
-    }
 
 	public Case getEmplacement() {
 		return emplacement;
@@ -69,6 +56,11 @@ public class Pion extends JPanel {
 
 	public void setEmplacement(Case emplacement) {
 		this.emplacement = emplacement;
+	}
+
+	public Couleur getCouleur() {
+		// TODO Auto-generated method stub
+		return couleur;
 	}
 	
 	

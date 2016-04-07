@@ -34,14 +34,13 @@ public class MouvementsPion implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub	
 		// Lorsque l'on clique sur un élement
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		//Lorsque l'on relache un élément
 	}
 	
