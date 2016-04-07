@@ -17,14 +17,7 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {		
-		c.setSelectionnee(true);
-		if(c.isSelectionnee()){
-        	c.setBackground(Color.BLUE);
-            c.setForeground(Color.LIGHT_GRAY);
-        }
-        else {
-            c.initCouleur();
-        }
+   
 	}
 
 	@Override
@@ -41,12 +34,13 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		c.setBackground(Color.BLUE);
+        c.setForeground(Color.LIGHT_GRAY);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		c.initCouleur();
 		
 	}
 	
