@@ -1,6 +1,3 @@
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -8,6 +5,10 @@ import javax.swing.JMenuItem;
 
 public class Fenetre extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 198007107186481305L;
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu Jeu = new JMenu("Jeu");
 	private JMenuItem Recommencer = new JMenuItem("Recommencer");

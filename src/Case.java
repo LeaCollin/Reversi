@@ -7,12 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Paint;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class Case extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3347630978748093310L;
 	private boolean selectionnee;
 	private int i;							// ligne
 	private int j; 							// colonne
@@ -56,7 +58,7 @@ public class Case extends JPanel{
     public void setSelectionnee(boolean selectionnee) {
     	this.selectionnee = selectionnee;
         if(selectionnee){
-            setBackground(Color.BLACK);
+            setBackground(Color.RED);
         }
         else {
             initCouleur();
@@ -65,8 +67,6 @@ public class Case extends JPanel{
     
     public void initCouleur(){
     	setBackground(Color.WHITE);
-    	Border blackline = BorderFactory.createLineBorder(Color.black,1); 
-    	setBorder(blackline);
     }
     
     @Override
@@ -81,9 +81,7 @@ public class Case extends JPanel{
             System.out.println("Error");
             return;
         }
-        paint = new GradientPaint(0,0, getBackground(), getWidth(), getHeight(), Color.BLUE);
-        Border blackline = BorderFactory.createLineBorder(Color.black,1); 
-    	setBorder(blackline);
+        paint = new GradientPaint(0,0,getBackground(), getWidth(), getHeight(), Color.BLACK);
         g2d.setPaint(paint);
         g.fillRect(0, 0, getWidth(), getHeight());
     }

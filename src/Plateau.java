@@ -1,19 +1,19 @@
-import java.awt.Component;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
 
 public class Plateau extends JPanel{
 
-	private Case caseActive;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2516116318800873412L;
 	private int taille;
 	private boolean tourNoir; //plus simple de créer une classe jouer ?
 	 
 	public Plateau(int taille){
 		this.taille = taille;
-		tourNoir = false;
+		tourNoir = true;
 		setLayout(new GridLayout(taille, taille));
         for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
@@ -80,7 +80,6 @@ public class Plateau extends JPanel{
 			Pion p = new Pion(color);
 			getCase(c.getI(),c.getJ()).add(p);
 			getCase(c.getI(),c.getJ()).setEtat(true);
-			tourNoir = !tourNoir;
 			return c;
 		}
 		else return null;
@@ -88,8 +87,9 @@ public class Plateau extends JPanel{
 	
 	
 	public void suppPion(Case c){
-		if (!(c.getComponentCount()!=0 && c.isEtat())){
+		if (c.getComponentCount()!=0 && c.isEtat()){
 			c.remove(0);
+			c.repaint();
 			c.setEtat(false);
 		}
 	}
@@ -265,16 +265,66 @@ public class Plateau extends JPanel{
 	public void checkCouleurPion(Case c){
 		int i = c.getI();
 		int j = c.getJ();
-		if ( 1 < i && i < 6 && j < 6 && 1 < j){
-    		// on test l'est
-    		if (getCase(i,j+1).isEtat() && getCase(i,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i,j+1).getCouleur() && getPion(i,j+2).getCouleur() == getPion(i,j).getCouleur()){
-    			suppPion(getCase(i,j+1));
-    			ajouterPion(getCase(i,j+1),getPion(i,j).getCouleur()); //trouver commment changer la couleur ou supprimer ce pion !!!
+    	// on test l'est
+    	if (j < 6 && getCase(i,j+1).isEtat() && getCase(i,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i,j+1).getCouleur() && getPion(i,j+2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i,j+1));
+    		ajouterPion(getCase(i,j+1),getPion(i,j).getCouleur()); 
+       	}
+    	// on test l'ouest
+    	if (j > 1 && getCase(i,j-1).isEtat() && getCase(i,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i,j-1).getCouleur() && getPion(i,j-2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i,j-1));
+    		ajouterPion(getCase(i,j-1),getPion(i,j).getCouleur()); 
+       	}
+    	// on test le nord
+    	if (i > 1 && getCase(i+1,j).isEtat() && getCase(i+2,j).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j).getCouleur() && getPion(i+2,j).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i+1,j));
+    		ajouterPion(getCase(i+1,j),getPion(i,j).getCouleur()); 
+       	}
+    	// on test le sud
+    	if (i < 6 && getCase(i-1,j).isEtat() && getCase(i-2,j).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j).getCouleur() && getPion(i-2,j).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i-1,j));
+    		ajouterPion(getCase(i-1,j),getPion(i,j).getCouleur()); 
+       	}
+    	// on test le nord-est
+    	if (i > 1 && j < 5 && getCase(i-1,j+1).isEtat() && getCase(i-2,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j+1).getCouleur() && getPion(i-2,j+2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i-1,j+1));
+    		ajouterPion(getCase(i-1,j+1),getPion(i,j).getCouleur());  
+       	}
+       	// on test le nord-ouest
+    	if (i > 1 && j > 1 && getCase(i-1,j-1).isEtat() && getCase(i-2,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j-1).getCouleur() && getPion(i-2,j-2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i-1,j-1));
+    		ajouterPion(getCase(i-1,j-1),getPion(i,j).getCouleur()); 
+       	}
+       	// on test le sud-ouest
+    	if (i < 5 && j > 1 && getCase(i+1,j-1).isEtat() && getCase(i+2,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j-1).getCouleur() && getPion(i+2,j-2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i+1,j-1));
+    		ajouterPion(getCase(i+1,j-1),getPion(i,j).getCouleur()); 
+       	}
+       	// on test le sud-est
+    	if (i < 5 && j < 5 && getCase(i+1,j+1).isEtat() && getCase(i+2,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j+1).getCouleur() && getPion(i+2,j+2).getCouleur() == getPion(i,j).getCouleur()){
+    		suppPion(getCase(i+1,j+1));
+    		ajouterPion(getCase(i+1,j+1),getPion(i,j).getCouleur()); 
+       	}    	
     			
-    			System.out.println(getPion(i,j-1).getCouleur());
-    		}
-    	}
-    			
+	}
+
+	public void unePartie(Case c){
+		if (isTourNoir()){
+			ajouterPion(c, Couleur.Noir);
+			updateUI();									//OH OUI CA MARCHE ENFIN MERCI OPENCLASSROOM !!!!
+			setTourNoir(!isTourNoir());
+			checkCouleurPion(c);
+			actualiserPlateau();						//déselection toutes les cases pour pouvoir passser au tour suivant
+			jouer(isTourNoir());
+		}
+		else {
+			ajouterPion(c, Couleur.Blanc); 			
+			updateUI();
+			checkCouleurPion(c);
+			setTourNoir(!isTourNoir());
+			actualiserPlateau();						//déselection toutes les cases pour pouvoir passser au tour suivant
+			jouer(isTourNoir());
+		}
 	}
 }
 

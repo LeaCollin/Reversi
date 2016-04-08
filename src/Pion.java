@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 
 public class Pion extends JPanel {
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3028002815862069208L;
 	private Couleur couleur;
 	private Case emplacement;
 	
