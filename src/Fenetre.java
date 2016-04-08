@@ -19,6 +19,8 @@ public class Fenetre extends JFrame {
 		this.setSize(600, 600);
 	    //Position de la fenetre lors de son ouverture
 	    this.setLocation(300, 400);
+	    //empecher la redimension
+	    setResizable(false);
 	    add(new Plateau(8));
 	    menu();
 	}
@@ -26,7 +28,7 @@ public class Fenetre extends JFrame {
 	 public void menu(){
 		//On initialise nos menus      
 		 this.Jeu.add(Recommencer);   
-		 //Ajout des menus de gauche ï¿½ droite
+		 //Ajout des menus de gauche à droite
 		 this.menuBar.add(Jeu);
 		 this.menuBar.add(Quitter);
 		 this.setJMenuBar(menuBar);

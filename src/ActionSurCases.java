@@ -33,30 +33,26 @@ public class ActionSurCases implements MouseListener{
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-
-		plateau.selectionnerCases(c.getI(), c.getJ());;	
-		Pion pion = new Pion(Couleur.Blanc);
-		if (c.getComponentCount()!=0){
-			boolean b = c.getComponent(0).equals(pion);
-	        System.out.println(b);
-	        //System.out.print(c.getComponent(0));
-		}
-        System.out.println(c.isSelectionnee());
-
+	public void mousePressed(MouseEvent e) {	
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
-		if(c.isSelectionnee()){
-            plateau.afficherPion(c);
-        }
-		c.setSelectionnee(false);
-
-		System.out.println("tamere");
-		//c.initCouleur();
-		
+		//Actions lorsqu'on relache la souris (à améliorer)
+		if (c.isSelectionnee()){
+			if (plateau.isTourNoir()){
+				plateau.ajouterPion(c, Couleur.Noir); 				//marche mais pb de réactualiation de la fenetre, si on réduit puis réagrandit la fenetre, le pion apparait mystère...
+				plateau.actualiserPlateau();					//déselection toutes les cases pour pouvoir passser au tour suivant
+				plateau.jouer(plateau.isTourNoir());
+			}
+			else {
+				plateau.ajouterPion(c, Couleur.Blanc); 				//marche mais pb de réactualiation de la fenetre, si on réduit puis réagrandit la fenetre, le pion apparait mystère...
+				plateau.actualiserPlateau();					//déselection toutes les cases pour pouvoir passser au tour suivant
+				plateau.jouer(plateau.isTourNoir());
+			}
+					}
+				
 
 	}
 	

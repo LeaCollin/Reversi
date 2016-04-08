@@ -11,11 +11,6 @@ public class Pion extends JPanel {
 	private Couleur couleur;
 	private Case emplacement;
 	
-	public Pion(Couleur couleur, Case emplacement) {
-		this.couleur = couleur;
-		this.emplacement = emplacement;
-	}
-	
 	public Pion(Couleur couleur) {
         this.couleur = couleur;
         setOpaque(false);
@@ -31,8 +26,10 @@ public class Pion extends JPanel {
         }
     }
 	
+	
 	@Override
     public void paintComponent(Graphics g){
+		//initialise le graphisme des pions
         Paint paint;
         Graphics2D g2d;
         if (g instanceof Graphics2D) {
@@ -59,11 +56,12 @@ public class Pion extends JPanel {
 	}
 
 	public Couleur getCouleur() {
-		// TODO Auto-generated method stub
 		return couleur;
 	}
 	
-	
+	public void isCouleur(Couleur color){
+		couleur = color;
+	}
 	
 	
 }

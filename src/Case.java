@@ -14,19 +14,26 @@ import javax.swing.border.Border;
 public class Case extends JPanel{
 
 	private boolean selectionnee;
-	private Couleur couleur;
-	private Plateau plateau;
-	private int i; // ligne
-	private int j; //colonne
+	private int i;							// ligne
+	private int j; 							// colonne
+	private boolean etat; 					// permet de savoir si la case contient un pion ou non => true : il y a un pion dans la case
 
-	public Case(int i, int j){
+	public Case(boolean etat, int i, int j){
+		this.etat = etat;
 		this.i = i;
 		this.j = j;
         setLayout(new GridLayout(1,0));
-        //initCouleur();
     }
 
-    public int getI() {
+    public boolean isEtat() {
+		return etat;
+	}
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+
+	public int getI() {
 		return i;
 	}
 
@@ -42,10 +49,6 @@ public class Case extends JPanel{
 		this.j = j;
 	}
 
-	public Couleur getCouleur() {
-        return couleur;
-    }
-
     public boolean isSelectionnee() {
         return selectionnee;
     }
@@ -53,8 +56,7 @@ public class Case extends JPanel{
     public void setSelectionnee(boolean selectionnee) {
     	this.selectionnee = selectionnee;
         if(selectionnee){
-            setBackground(Color.BLUE);
-            setForeground(Color.LIGHT_GRAY);
+            setBackground(Color.BLACK);
         }
         else {
             initCouleur();
@@ -62,14 +64,14 @@ public class Case extends JPanel{
     }
     
     public void initCouleur(){
-    	setBackground(Color.RED);
-    	setForeground(Color.BLACK);
+    	setBackground(Color.WHITE);
     	Border blackline = BorderFactory.createLineBorder(Color.black,1); 
     	setBorder(blackline);
     }
     
     @Override
     public void paintComponent(Graphics g){
+    	//Initialise les couleurs du tableau initial
         Paint paint;
         Graphics2D g2d;
         if (g instanceof Graphics2D) {
@@ -79,7 +81,9 @@ public class Case extends JPanel{
             System.out.println("Error");
             return;
         }
-        paint = new GradientPaint(0,0, Color.RED, getWidth(), getHeight(), Color.BLACK);
+        paint = new GradientPaint(0,0, getBackground(), getWidth(), getHeight(), Color.BLUE);
+        Border blackline = BorderFactory.createLineBorder(Color.black,1); 
+    	setBorder(blackline);
         g2d.setPaint(paint);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
