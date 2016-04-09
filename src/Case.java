@@ -44,10 +44,13 @@ public class Case extends JPanel{
 		this.voisins.put(voisin, Commun.Direction.getDirection(voisin.getI()-this.i, voisin.getJ()-this.j));
 	}
 	
+	//Création d'une liste contenant les cases voisines lors de la création de la grille et du plateau
 	public void sAjouterAuxVoisins(ArrayList<Case> listeCase){
 		
 		if(this.j > 0) {
+			// Ajoute à la case courante, la case qui la précéde, dans ses voisins.
 			this.voisins.put(listeCase.get(this.getIndexArrayList()-1), Commun.Direction.getDirection(0, -1));
+			// Sachant qu'a la création de la case precedente, la case courante n'existait pas, on l'ajoute maintenant aux voisins de la case precedente.
 			listeCase.get(this.getIndexArrayList()-1).ajouterVoisin(this);
 			
 			if(this.i > 0) {

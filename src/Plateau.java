@@ -13,8 +13,10 @@ public class Plateau extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 2516116318800873412L;
+	private static boolean voisinConnu;
+	
 	private int taille;
-	private boolean tourNoir; //plus simple de créer une classe jouer ?
+	private boolean tourNoir; //plus simple de crï¿½er une classe jouer ?
 	private ArrayList<Case> plateauCase;
 	 
 	public Plateau(int taille){
@@ -36,6 +38,7 @@ public class Plateau extends JPanel{
 		 case1.sAjouterAuxVoisins(plateauCase);
 	     case1.addMouseListener(new ActionSurCases(case1, this));
 	     add(case1);
+	     
 	 }
 		
 	 private void init(){
@@ -47,7 +50,8 @@ public class Plateau extends JPanel{
 	     getCase(4,3).setEtat(true);
 	     getCase(4,4).add(creerPion(Couleur.Noir));
 	     getCase(4,4).setEtat(true);
-	     jouer(tourNoir);
+	     afficherLesPossibilites();
+
 	 }
 	 
 	public boolean isTourNoir() {
@@ -63,13 +67,13 @@ public class Plateau extends JPanel{
 	}
 	
 	public Pion getPion(int i, int j){
-		//Avoir accès à n'importe quel piont du plateau
+		//Avoir accï¿½s ï¿½ n'importe quel piont du plateau
 		Case c = getCase(i,j);
 	    return (Pion) c.getComponent(0) ;
 	}
 	
 	public Pion getPion(Case c){
-		//Avoir accès au pion d'une case précise
+		//Avoir accï¿½s au pion d'une case prï¿½cise
 	    return (Pion) c.getComponent(0) ;
 	}
 		 
@@ -79,7 +83,7 @@ public class Plateau extends JPanel{
 	}
 	
 	public Case ajouterPion(Case c, Couleur color){
-		//retourne la case où est posé le nouveau pion (mieux que de retourner pion car on ne peut pas avoir les coordonnées d'un pion)
+		//retourne la case oï¿½ est posï¿½ le nouveau pion (mieux que de retourner pion car on ne peut pas avoir les coordonnï¿½es d'un pion)
 		if (!(c.getComponentCount()!=0 && c.isEtat())){
 			Pion p = new Pion(color);
 			getCase(c.getI(),c.getJ()).add(p);
@@ -104,17 +108,23 @@ public class Plateau extends JPanel{
 		
 	}
 	
-	//affiche toutes les possibilités pour un joueur
+	//affiche toutes les possibilitï¿½s pour un joueur
 	public void afficherLesPossibilites(){
 		 for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				if (tourNoir && getCase(i,j).isEtat()){
+					System.out.println("---- tourNoir ----");
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
+						System.out.println("On a trouvÃ© un point noir");
+
 						possibilite(getCase(i,j));
 					}
 			 	}
 				if (!tourNoir && getCase(i,j).isEtat()){
+					System.out.println("---- tourBlanc ----");
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
+						System.out.println("On a trouvÃ© un point blanc");
+
 						possibilite(getCase(i,j));
 					}
 				}
@@ -122,141 +132,84 @@ public class Plateau extends JPanel{
 		 }
 	}
 	
-	//affiche tout les possibilités pour une case donnée (pb lorsqu'il y a trop de cases alignées
+	//affiche tout les possibilitï¿½s pour une case donnï¿½e (pb lorsqu'il y a trop de cases alignï¿½es
 	public void possibilite(Case c){
-		int x = c.getJ();
-		int y = c.getI();
-		//on test du côté droit du pion
-		while (getCase(y,x).isEtat() && x <= taille-3){
-			if (getCase(y,x+1).isEtat() && getPion(y,x+1).getCouleur() != getPion(c).getCouleur()){
-				x = x + 2;
-			}
-			else {
-				break;
-				}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//on test le côté gauche du pion
-		while (getCase(y,x).isEtat() && x >= 2){
-			if (getCase(y,x-1).isEtat() && getPion(y,x-1).getCouleur() != getPion(c).getCouleur()){
-				x = x - 2;
-			}
-			else {
-				break;
-				}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//on test au dessus du pions
-		while (getCase(y,x).isEtat() && y >= 2){
-			if (getCase(y-1,x).isEtat() && getPion(y-1,x).getCouleur() != getPion(c).getCouleur()){
-				y = y - 2;
-			}
-			else {
-				break;
-				}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//on test en dessous du pions
-		while (getCase(y,x).isEtat() && y <= taille-3){
-			if (getCase(y+1,x).isEtat() && getPion(y+1,x).getCouleur() != getPion(c).getCouleur()){
-				y = y + 2;
-			}
-			else {
-				break;
-				}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//On test la diagonale nord-ouest
-		while (getCase(y,x).isEtat() && y >=2 && x >= 2){
-			if (getCase(y-1,x-1).isEtat() && getPion(y-1,x-1).getCouleur() != getPion(c).getCouleur()){
-				y = y - 2;
-				x = x - 2;
-			}
-			else {
-				break;
-				}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//On test la diagonale nord-est
-		while (getCase(y,x).isEtat() && y >=2 && x <= taille-3){
-			if (getCase(y-1,x+1).isEtat() && getPion(y-1,x+1).getCouleur() != getPion(c).getCouleur()){
-				y = y - 2;
-				x = x + 2;
-			}
-			else {
-				break;
-			}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//On test la diagonale sud-est
-		while (getCase(y,x).isEtat() && y <= 6 && x <= 6){
-			if (getCase(y+1,x+1).isEtat() && getPion(y+1,x+1).getCouleur() != getPion(c).getCouleur()){
-				y = y + 2;
-				x = x + 2;
-			}
-			else {
-				break;
-			}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
-		
-		//On test la diagonale sud-ouest
-		while (getCase(y,x).isEtat() && y <= 6 && x >= 0){
-			if (getCase(y+1,x-1).isEtat() && getPion(y+1,x-1).getCouleur() != getPion(c).getCouleur()){
-				y = y + 2;
-				x = x - 2;
-			}
-			else {
-				break;
-			}
-		}
-		if (getCase(y,x).isEtat() == false){
-			selectionnerCases(y,x);
-		}
-		x = c.getJ();
-		y = c.getI();
+		System.out.println("Case choisie : "+c.toString()+"Etat : "+c.isEtat());		
+		//RÃ©cupÃ¨re la couleur du pion de la case
+		Couleur color = getPion(c).getCouleur();
+			
+		c.getVoisins().entrySet().stream().forEach((pair) -> { //pair.getValue() => direction
 
+			int index = c.getIndexArrayList() + pair.getValue().getI()*Commun.NOMBRECOLONNES+pair.getValue().getJ();
+			
+			Case caseSuivante = plateauCase.get(index);
+			System.out.println("Case voisine Ã  celle cliquÃ©e : "+caseSuivante.toString()+"Etat : "+caseSuivante.isEtat());		
+
+			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
+			if(!caseSuivante.isEtat())
+				return;
+			
+			// si la case est pleine on continue d'avancer
+			Pion pionSuivant = getPion(caseSuivante);
+			
+			//on teste si le dernier pion est de la meme couleur que celle du joueur
+			if(color != pionSuivant.getCouleur()) {
+				System.out.println("on rentre dans la rÃ©cursivitÃ©");		
+
+				possibilite(caseSuivante, color, pair.getValue());
+				
+			}
+			
+			// si couleur identique on retourne la liste pour changer les couleurs de tout les pions
+			if(color == pionSuivant.getCouleur()) {
+				return;
+			}		
+			
+		});
+		return;
+	}
 		
-	}
-	
-	public void jouer(boolean bool){
-		//à faire : gerer le cas où le plateau est plein
-		afficherLesPossibilites();		
-	}
+	public void possibilite(Case c, Couleur color,  Direction d){
+		System.out.println("Case Ã©tudiÃ©e "+c.toString()+"\n");		
+		int index = c.getIndexArrayList() + d.getI()*Commun.NOMBRECOLONNES + d.getJ();
+		
+		voisinConnu = false;
+		
+			// verifie si on a un voisin ou pas: BUT: Ne pas sortir du tableau
+		plateauCase.get(index).getVoisins().entrySet().stream().forEach((pair) -> {
+			if(pair.getValue() == d)
+				voisinConnu = true;
+    	});
+		
+			// Ne pas sortir du tableau
+		if(!voisinConnu)
+			return;
+		
+		Case caseSuivante = plateauCase.get(index);
+		System.out.println("Case suivante : "+caseSuivante.toString()+"\n Etat: "+caseSuivante.isEtat()+"\n");
+			
+			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
+		if(!caseSuivante.isEtat()){
+			System.out.println("on active la case \n");		
+			selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
+			return;
+		}
+		
+			// si la case est pleine on continue d'avancer
+		Pion pionSuivant = getPion(caseSuivante);
+			
+			//le pion suivant est de la mÃªme couleur qu'initial
+		if (pionSuivant.getCouleur() == color){
+			System.out.println("on s'arrete car le pion suivant est de la mÃªme couleur qu'initial" );
+			return;
+		}
+		
+		System.out.println("on relance la rÃ©cursivitÃ©");
+		possibilite(caseSuivante, color, d);
+		
+		return;	 
+	}		
+
 	
 	public void actualiserPlateau(){
 		for(int i=0; i<taille; i++){
@@ -269,15 +222,19 @@ public class Plateau extends JPanel{
 	
 	public void checkCouleurPion(Case courante) {
 		
+		//RÃ©cupÃ¨re la couleur du pion de la case courante
 		Couleur joueur = getPion(courante).getCouleur();
+		
+		// Si la case en question a des voisins:
 		if(courante.getVoisins() != null) {
 			
 			courante.getVoisins().entrySet().stream().forEach((pair) -> {
-		        ArrayList<Case> listeCases = new ArrayList<Case>();System.out.println(courante);
+				
+				// CrÃ©Ã© liste cases
+		        ArrayList<Case> listeCases = new ArrayList<Case>();
 		        
 		        listeCases = checkRecursif(listeCases, courante, joueur, pair.getValue());
 		        
-		        System.out.println("Array : "+listeCases);
 		        if(listeCases.size() > 0) {
 			        for(Case caseOk : listeCases) {
 			        	suppPion(caseOk);
@@ -291,20 +248,41 @@ public class Plateau extends JPanel{
 	
 	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur joueur, Direction direction) {
 		
+		//On rÃ©cupÃ¨re le pion que l'on vient de mettre :
 		Pion pionCourant = getPion(courante);
-		Case caseSuivante = plateauCase.get(courante.getIndexArrayList() 
-									- direction.getI()*Commun.NOMBRECOLONNES+direction.getJ());
-		System.out.println(caseSuivante.toString());
+		
+		// Retourne la case suivante en fonction de sa direction
+		int index = courante.getIndexArrayList() + direction.getI()*Commun.NOMBRECOLONNES+direction.getJ();
+		
+		voisinConnu = false;
+		
+		// verifie si on a un voisin ou pas: BUT: Ne pas sortir du tableau
+		plateauCase.get(index).getVoisins().entrySet().stream().forEach((pair) -> {
+			if(pair.getValue() == direction)
+				voisinConnu = true;
+    	});
+		
+		// Ne pas sortir du tableau
+		if(!voisinConnu)
+			return new ArrayList<Case>();
+		
+		// Case suivante prend la case dans la direction concernÃ©e (on vient de tester qu'elle existait)
+		Case caseSuivante = plateauCase.get(index);
+			
+		// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
 		if(!caseSuivante.isEtat())
 			return new ArrayList<Case>();
 		
+		// si la case est pleine on continue d'avancer
 		Pion pionSuivant = getPion(caseSuivante);
 		
+		//on teste si le dernier pion est de la meme couleur que celle du joueur
 		if(joueur != pionSuivant.getCouleur()) {
 			liste.add(caseSuivante);
 			return checkRecursif(liste, caseSuivante, joueur, direction);
 		}
 		
+		// si couleur identique on retourne la liste pour changer les couleurs de tout les pions
 		if(pionCourant.getCouleur() == pionSuivant.getCouleur()) {
 			return liste;
 		}
@@ -315,19 +293,22 @@ public class Plateau extends JPanel{
 	public void unePartie(Case c){
 		if (isTourNoir()){
 			ajouterPion(c, Couleur.Noir);
-			updateUI();									//OH OUI CA MARCHE ENFIN MERCI OPENCLASSROOM !!!!
+			updateUI();									
 			setTourNoir(!isTourNoir());
 			checkCouleurPion(c);
-			actualiserPlateau();						//déselection toutes les cases pour pouvoir passser au tour suivant
-			jouer(isTourNoir());
+			actualiserPlateau();	
+			System.out.println("--------------");//dï¿½selection toutes les cases pour pouvoir passser au tour suivant
+			afficherLesPossibilites();
+			
 		}
 		else {
 			ajouterPion(c, Couleur.Blanc); 			
 			updateUI();
 			checkCouleurPion(c);
 			setTourNoir(!isTourNoir());
-			actualiserPlateau();						//déselection toutes les cases pour pouvoir passser au tour suivant
-			jouer(isTourNoir());
+			actualiserPlateau();	
+			System.out.println("--------------");//dï¿½selection toutes les cases pour pouvoir passser au tour suivant
+			afficherLesPossibilites();
 		}
 	}
 }

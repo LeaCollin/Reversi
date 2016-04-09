@@ -38,7 +38,7 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//Actions lorsqu'on relache la souris (à améliorer)
+		//Actions lorsqu'on relache la souris (ï¿½ amï¿½liorer)
 		if (c.isSelectionnee()){
 			plateau.unePartie(c);
 		}
