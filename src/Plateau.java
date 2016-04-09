@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 
@@ -10,19 +12,16 @@ public class Plateau extends JPanel{
 	private static final long serialVersionUID = 2516116318800873412L;
 	private int taille;
 	private boolean tourNoir; //plus simple de créer une classe jouer ?
+	private ArrayList<Case> plateauCase;
 	 
 	public Plateau(int taille){
 		this.taille = taille;
 		tourNoir = true;
+		plateauCase = new ArrayList<Case>();
 		setLayout(new GridLayout(taille, taille));
         for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
-                if((j%2==0 && i%2==0) || (j%2!=0 && i%2!=0)){
-                    ajouterCase(i, j);
-                }
-                else{
-                    ajouterCase(i, j);
-                }
+            	ajouterCase(i, j);
             }
         }
         init();
@@ -30,6 +29,8 @@ public class Plateau extends JPanel{
 	
 	 private void ajouterCase(int i, int j){
 		 Case case1 = new Case(false, i, j);
+		 plateauCase.add(case1);
+		 case1.sAjouterAuxVoisins(plateauCase);
 	     case1.addMouseListener(new ActionSurCases(case1, this));
 	     add(case1);
 	 }
@@ -118,7 +119,7 @@ public class Plateau extends JPanel{
 		 }
 	}
 	
-	//affiche tout les possibilités pour une case donnée (et marche)
+	//affiche tout les possibilités pour une case donnée (pb lorsqu'il y a trop de cases alignées
 	public void possibilite(Case c){
 		int x = c.getJ();
 		int y = c.getI();
@@ -230,7 +231,7 @@ public class Plateau extends JPanel{
 		x = c.getJ();
 		y = c.getI();
 		
-		//On test la diagonale sud-ouesr
+		//On test la diagonale sud-ouest
 		while (getCase(y,x).isEtat() && y <= 6 && x >= 0){
 			if (getCase(y+1,x-1).isEtat() && getPion(y+1,x-1).getCouleur() != getPion(c).getCouleur()){
 				y = y + 2;
