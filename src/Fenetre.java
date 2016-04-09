@@ -19,7 +19,7 @@ public class Fenetre extends JFrame {
 	    //Taille de la fenetre
 		this.setSize(600, 600);
 	    //Position de la fenetre lors de son ouverture
-	    this.setLocation(300, 400);
+	    this.setLocationRelativeTo(null);
 	    //empecher la redimension
 	    setResizable(false);
 	    add(new Plateau(8));

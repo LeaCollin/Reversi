@@ -129,4 +129,8 @@ public class Case extends JPanel{
         g2d.setPaint(paint);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
+    
+    public String toString() {
+    	return "Case : "+this.getI()+":"+this.getJ()+" => "+this.isEtat();
+    }
 }

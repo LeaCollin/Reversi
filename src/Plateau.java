@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Commun.Commun;
+import Commun.Commun.Direction;
+
 
 public class Plateau extends JPanel{
 
@@ -263,50 +266,50 @@ public class Plateau extends JPanel{
 		}
 	}
 	
-	public void checkCouleurPion(Case c){
-		int i = c.getI();
-		int j = c.getJ();
-    	// on test l'est
-    	if (j < 6 && getCase(i,j+1).isEtat() && getCase(i,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i,j+1).getCouleur() && getPion(i,j+2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i,j+1));
-    		ajouterPion(getCase(i,j+1),getPion(i,j).getCouleur()); 
-       	}
-    	// on test l'ouest
-    	if (j > 1 && getCase(i,j-1).isEtat() && getCase(i,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i,j-1).getCouleur() && getPion(i,j-2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i,j-1));
-    		ajouterPion(getCase(i,j-1),getPion(i,j).getCouleur()); 
-       	}
-    	// on test le nord
-    	if (i > 1 && getCase(i+1,j).isEtat() && getCase(i+2,j).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j).getCouleur() && getPion(i+2,j).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i+1,j));
-    		ajouterPion(getCase(i+1,j),getPion(i,j).getCouleur()); 
-       	}
-    	// on test le sud
-    	if (i < 6 && getCase(i-1,j).isEtat() && getCase(i-2,j).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j).getCouleur() && getPion(i-2,j).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i-1,j));
-    		ajouterPion(getCase(i-1,j),getPion(i,j).getCouleur()); 
-       	}
-    	// on test le nord-est
-    	if (i > 1 && j < 5 && getCase(i-1,j+1).isEtat() && getCase(i-2,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j+1).getCouleur() && getPion(i-2,j+2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i-1,j+1));
-    		ajouterPion(getCase(i-1,j+1),getPion(i,j).getCouleur());  
-       	}
-       	// on test le nord-ouest
-    	if (i > 1 && j > 1 && getCase(i-1,j-1).isEtat() && getCase(i-2,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i-1,j-1).getCouleur() && getPion(i-2,j-2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i-1,j-1));
-    		ajouterPion(getCase(i-1,j-1),getPion(i,j).getCouleur()); 
-       	}
-       	// on test le sud-ouest
-    	if (i < 5 && j > 1 && getCase(i+1,j-1).isEtat() && getCase(i+2,j-2).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j-1).getCouleur() && getPion(i+2,j-2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i+1,j-1));
-    		ajouterPion(getCase(i+1,j-1),getPion(i,j).getCouleur()); 
-       	}
-       	// on test le sud-est
-    	if (i < 5 && j < 5 && getCase(i+1,j+1).isEtat() && getCase(i+2,j+2).isEtat() && getPion(i,j).getCouleur() != getPion(i+1,j+1).getCouleur() && getPion(i+2,j+2).getCouleur() == getPion(i,j).getCouleur()){
-    		suppPion(getCase(i+1,j+1));
-    		ajouterPion(getCase(i+1,j+1),getPion(i,j).getCouleur()); 
-       	}    	
-    			
+	
+	public void checkCouleurPion(Case courante) {
+		
+		Couleur joueur = getPion(courante).getCouleur();
+		if(courante.getVoisins() != null) {
+			
+			courante.getVoisins().entrySet().stream().forEach((pair) -> {
+		        ArrayList<Case> listeCases = new ArrayList<Case>();System.out.println(courante);
+		        
+		        listeCases = checkRecursif(listeCases, courante, joueur, pair.getValue());
+		        
+		        System.out.println("Array : "+listeCases);
+		        if(listeCases.size() > 0) {
+			        for(Case caseOk : listeCases) {
+			        	suppPion(caseOk);
+			    		ajouterPion(caseOk, joueur);
+			        }
+		        }
+	    	});
+		}
+	}
+	
+	
+	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur joueur, Direction direction) {
+		
+		Pion pionCourant = getPion(courante);
+		Case caseSuivante = plateauCase.get(courante.getIndexArrayList() 
+									- direction.getI()*Commun.NOMBRECOLONNES+direction.getJ());
+		System.out.println(caseSuivante.toString());
+		if(!caseSuivante.isEtat())
+			return new ArrayList<Case>();
+		
+		Pion pionSuivant = getPion(caseSuivante);
+		
+		if(joueur != pionSuivant.getCouleur()) {
+			liste.add(caseSuivante);
+			return checkRecursif(liste, caseSuivante, joueur, direction);
+		}
+		
+		if(pionCourant.getCouleur() == pionSuivant.getCouleur()) {
+			return liste;
+		}
+		
+		return liste;
 	}
 
 	public void unePartie(Case c){
