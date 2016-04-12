@@ -17,7 +17,7 @@ public class Fenetre extends JFrame {
 	public Fenetre(){
 		this.setTitle("Reversi");
 	    //Taille de la fenetre
-		this.setSize(600, 600);
+		this.setSize(800, 800);
 	    //Position de la fenetre lors de son ouverture
 	    this.setLocationRelativeTo(null);
 	    //empecher la redimension

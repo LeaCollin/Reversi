@@ -16,12 +16,14 @@ public class Plateau extends JPanel{
 	private static boolean voisinConnu;
 	
 	private int taille;
-	private boolean tourNoir; //plus simple de cr�er une classe jouer ?
+	private Joueur joueurBlanc;
+	private Joueur joueurNoir; //plus simple de cr�er une classe jouer ?
 	private ArrayList<Case> plateauCase;
 	 
 	public Plateau(int taille){
 		this.taille = taille;
-		tourNoir = true;
+		joueurBlanc = new Joueur(Couleur.Blanc, false);
+		joueurNoir = new Joueur(Couleur.Noir, true);
 		plateauCase = new ArrayList<Case>();
 		setLayout(new GridLayout(taille, taille));
         for(int i=0; i<taille; i++){
@@ -54,14 +56,6 @@ public class Plateau extends JPanel{
 
 	 }
 	 
-	public boolean isTourNoir() {
-		return tourNoir;
-	}
-
-	public void setTourNoir(boolean tourNoir) {
-		this.tourNoir = tourNoir;
-	}
-
 	public Case getCase(int i, int j){
 	    return (Case) getComponent(j+i*taille);
 	}
@@ -103,28 +97,21 @@ public class Plateau extends JPanel{
 	}
 	
 	public void selectionnerCases(int i, int j){
-		getCase(i, j).setSelectionnee(true);
-		
+		getCase(i, j).setSelectionnee(true);		
 		
 	}
 	
-	//affiche toutes les possibilit�s pour un joueur
+	//affiche toutes les possibilites pour un joueur
 	public void afficherLesPossibilites(){
-		 for(int i=0; i<taille; i++){
-			 for(int j=0; j<taille; j++){
-				if (tourNoir && getCase(i,j).isEtat()){
-					System.out.println("---- tourNoir ----");
+		 for(int i=1; i<taille-1; i++){
+			 for(int j=1; j<taille-1; j++){
+				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
-						System.out.println("On a trouvé un point noir");
-
 						possibilite(getCase(i,j));
 					}
 			 	}
-				if (!tourNoir && getCase(i,j).isEtat()){
-					System.out.println("---- tourBlanc ----");
+				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
-						System.out.println("On a trouvé un point blanc");
-
 						possibilite(getCase(i,j));
 					}
 				}
@@ -132,10 +119,9 @@ public class Plateau extends JPanel{
 		 }
 	}
 	
-	//affiche tout les possibilit�s pour une case donn�e (pb lorsqu'il y a trop de cases align�es
+	//affiche tout les possibilites pour une case donnee
 	public void possibilite(Case c){
-		System.out.println("Case choisie : "+c.toString()+"Etat : "+c.isEtat());		
-		//Récupère la couleur du pion de la case
+		//Recupere la couleur du pion de la case
 		Couleur color = getPion(c).getCouleur();
 			
 		c.getVoisins().entrySet().stream().forEach((pair) -> { //pair.getValue() => direction
@@ -143,7 +129,6 @@ public class Plateau extends JPanel{
 			int index = c.getIndexArrayList() + pair.getValue().getI()*Commun.NOMBRECOLONNES+pair.getValue().getJ();
 			
 			Case caseSuivante = plateauCase.get(index);
-			System.out.println("Case voisine à celle cliquée : "+caseSuivante.toString()+"Etat : "+caseSuivante.isEtat());		
 
 			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
 			if(!caseSuivante.isEtat())
@@ -154,10 +139,7 @@ public class Plateau extends JPanel{
 			
 			//on teste si le dernier pion est de la meme couleur que celle du joueur
 			if(color != pionSuivant.getCouleur()) {
-				System.out.println("on rentre dans la récursivité");		
-
 				possibilite(caseSuivante, color, pair.getValue());
-				
 			}
 			
 			// si couleur identique on retourne la liste pour changer les couleurs de tout les pions
@@ -170,7 +152,6 @@ public class Plateau extends JPanel{
 	}
 		
 	public void possibilite(Case c, Couleur color,  Direction d){
-		System.out.println("Case étudiée "+c.toString()+"\n");		
 		int index = c.getIndexArrayList() + d.getI()*Commun.NOMBRECOLONNES + d.getJ();
 		
 		voisinConnu = false;
@@ -181,16 +162,18 @@ public class Plateau extends JPanel{
 				voisinConnu = true;
     	});
 		
-			// Ne pas sortir du tableau
-		if(!voisinConnu)
-			return;
 		
 		Case caseSuivante = plateauCase.get(index);
-		System.out.println("Case suivante : "+caseSuivante.toString()+"\n Etat: "+caseSuivante.isEtat()+"\n");
-			
+		
+		// Ne pas sortir du tableau
+				if(!voisinConnu && !caseSuivante.isEtat()){
+					System.out.println("hi");
+					selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
+					return;
+				}
+					
 			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
 		if(!caseSuivante.isEtat()){
-			System.out.println("on active la case \n");		
 			selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
 			return;
 		}
@@ -200,13 +183,11 @@ public class Plateau extends JPanel{
 			
 			//le pion suivant est de la même couleur qu'initial
 		if (pionSuivant.getCouleur() == color){
-			System.out.println("on s'arrete car le pion suivant est de la même couleur qu'initial" );
 			return;
 		}
 		
-		System.out.println("on relance la récursivité");
 		possibilite(caseSuivante, color, d);
-		
+				
 		return;	 
 	}		
 
@@ -290,24 +271,59 @@ public class Plateau extends JPanel{
 		return liste;
 	}
 
+	public int score(){
+		joueurNoir.setScore(0);
+		joueurBlanc.setScore(0);
+		for(int i=0; i<taille-1; i++){
+			 for(int j=0; j<taille-1; j++){
+				 if (getCase(i,j).isEtat()){
+					if (getPion(i,j).getCouleur() == Couleur.Noir){
+						joueurNoir.setScore(joueurNoir.getScore()+1);			 
+					 
+				 	}
+					if (getPion(i,j).getCouleur() == Couleur.Blanc){
+						joueurBlanc.setScore(joueurBlanc.getScore()+1);			 
+					 
+				 	}
+				 }
+			 }
+		}
+		return 0;
+	}
+	
 	public void unePartie(Case c){
-		if (isTourNoir()){
+		if (joueurNoir.isSonTour()){
+			System.out.println("---- tourNoir ---- \n");
 			ajouterPion(c, Couleur.Noir);
-			updateUI();									
-			setTourNoir(!isTourNoir());
+			updateUI();				
+			
+			joueurNoir.setSonTour(false);
+			joueurBlanc.setSonTour(true);
+						
 			checkCouleurPion(c);
+			score();
+			
+			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			actualiserPlateau();	
-			System.out.println("--------------");//d�selection toutes les cases pour pouvoir passser au tour suivant
 			afficherLesPossibilites();
 			
 		}
 		else {
+			System.out.println("---- tourBlanc ---- \n");
 			ajouterPion(c, Couleur.Blanc); 			
 			updateUI();
+			
+			joueurNoir.setSonTour(true);
+			joueurBlanc.setSonTour(false);
+				
 			checkCouleurPion(c);
-			setTourNoir(!isTourNoir());
+			score();
+			
+			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+			
 			actualiserPlateau();	
-			System.out.println("--------------");//d�selection toutes les cases pour pouvoir passser au tour suivant
 			afficherLesPossibilites();
 		}
 	}
