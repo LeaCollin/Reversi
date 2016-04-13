@@ -34,7 +34,7 @@ public class Plateau extends JPanel{
         init();
     }
 	
-	 private void ajouterCase(int i, int j){
+	private void ajouterCase(int i, int j){
 		 Case case1 = new Case(false, i, j);
 		 plateauCase.add(case1);
 		 case1.sAjouterAuxVoisins(plateauCase);
@@ -43,7 +43,7 @@ public class Plateau extends JPanel{
 	     
 	 }
 		
-	 private void init(){
+	private void init(){
 		 getCase(3,3).add(creerPion(Couleur.Noir));
 		 getCase(3,3).setEtat(true);
 	     getCase(3,4).add(creerPion(Couleur.Blanc));
@@ -128,6 +128,9 @@ public class Plateau extends JPanel{
 
 			int index = c.getIndexArrayList() + pair.getValue().getI()*Commun.NOMBRECOLONNES+pair.getValue().getJ();
 			
+			//Ne pas sortir du tableau
+			if (index<0 || index >63) return;
+			
 			Case caseSuivante = plateauCase.get(index);
 
 			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
@@ -142,7 +145,7 @@ public class Plateau extends JPanel{
 				possibilite(caseSuivante, color, pair.getValue());
 			}
 			
-			// si couleur identique on retourne la liste pour changer les couleurs de tout les pions
+			// si couleur identique on ne fait rien
 			if(color == pionSuivant.getCouleur()) {
 				return;
 			}		
@@ -153,35 +156,22 @@ public class Plateau extends JPanel{
 		
 	public void possibilite(Case c, Couleur color,  Direction d){
 		int index = c.getIndexArrayList() + d.getI()*Commun.NOMBRECOLONNES + d.getJ();
-		
-		voisinConnu = false;
-		
-			// verifie si on a un voisin ou pas: BUT: Ne pas sortir du tableau
-		plateauCase.get(index).getVoisins().entrySet().stream().forEach((pair) -> {
-			if(pair.getValue() == d)
-				voisinConnu = true;
-    	});
-		
+				
+	    //Ne pas sortir du tableau
+		if (index<0 || index >63) return;
 		
 		Case caseSuivante = plateauCase.get(index);
 		
-		// Ne pas sortir du tableau
-				if(!voisinConnu && !caseSuivante.isEtat()){
-					System.out.println("hi");
-					selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
-					return;
-				}
-					
-			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
+		//si la case est vide
 		if(!caseSuivante.isEtat()){
 			selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
 			return;
-		}
+		}		
 		
-			// si la case est pleine on continue d'avancer
+		// si la case est pleine on continue d'avancer
 		Pion pionSuivant = getPion(caseSuivante);
 			
-			//le pion suivant est de la même couleur qu'initial
+		//le pion suivant est de la même couleur qu'initial
 		if (pionSuivant.getCouleur() == color){
 			return;
 		}
@@ -204,63 +194,49 @@ public class Plateau extends JPanel{
 	public void checkCouleurPion(Case courante) {
 		
 		//Récupère la couleur du pion de la case courante
-		Couleur joueur = getPion(courante).getCouleur();
-		
-		// Si la case en question a des voisins:
-		if(courante.getVoisins() != null) {
-			
-			courante.getVoisins().entrySet().stream().forEach((pair) -> {
-				
+		Couleur color = getPion(courante).getCouleur();
+					
+			    courante.getVoisins().entrySet().stream().forEach((couple) -> {
+				System.out.println("Couple, direction : "+couple.getValue());
 				// Créé liste cases
 		        ArrayList<Case> listeCases = new ArrayList<Case>();
 		        
-		        listeCases = checkRecursif(listeCases, courante, joueur, pair.getValue());
+		        listeCases = checkRecursif(listeCases, courante, color, couple.getValue());
 		        
 		        if(listeCases.size() > 0) {
 			        for(Case caseOk : listeCases) {
 			        	suppPion(caseOk);
-			    		ajouterPion(caseOk, joueur);
+			    		ajouterPion(caseOk, color);
 			        }
 		        }
 	    	});
-		}
 	}
 	
 	
-	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur joueur, Direction direction) {
+	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur color, Direction direction) {
 		
 		//On récupère le pion que l'on vient de mettre :
 		Pion pionCourant = getPion(courante);
 		
 		// Retourne la case suivante en fonction de sa direction
 		int index = courante.getIndexArrayList() + direction.getI()*Commun.NOMBRECOLONNES+direction.getJ();
+		System.out.println("index: "+index);
 		
-		voisinConnu = false;
+		//Ne pas sortir du tableau
+		if (index<0 || index >63) return new ArrayList<Case>();
 		
-		// verifie si on a un voisin ou pas: BUT: Ne pas sortir du tableau
-		plateauCase.get(index).getVoisins().entrySet().stream().forEach((pair) -> {
-			if(pair.getValue() == direction)
-				voisinConnu = true;
-    	});
-		
-		// Ne pas sortir du tableau
-		if(!voisinConnu)
-			return new ArrayList<Case>();
-		
-		// Case suivante prend la case dans la direction concernée (on vient de tester qu'elle existait)
 		Case caseSuivante = plateauCase.get(index);
-			
-		// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
-		if(!caseSuivante.isEtat())
-			return new ArrayList<Case>();
+
 		
+		if (!caseSuivante.isEtat()) return new ArrayList<Case>();
+					
 		// si la case est pleine on continue d'avancer
 		Pion pionSuivant = getPion(caseSuivante);
 		
 		//on teste si le dernier pion est de la meme couleur que celle du joueur
-		if(joueur != pionSuivant.getCouleur()) {
+		if(color != pionSuivant.getCouleur()) {
 			liste.add(caseSuivante);
-			return checkRecursif(liste, caseSuivante, joueur, direction);
+			return checkRecursif(liste, caseSuivante, color, direction);
 		}
 		
 		// si couleur identique on retourne la liste pour changer les couleurs de tout les pions

@@ -40,10 +40,6 @@ public class Case extends JPanel{
 		return this.i*Commun.NOMBRECOLONNES+this.j;
 	}
 	
-	public void ajouterVoisin(Case voisin) {
-		this.voisins.put(voisin, Commun.Direction.getDirection(voisin.getI()-this.i, voisin.getJ()-this.j));
-	}
-	
 	//Création d'une liste contenant les cases voisines lors de la création de la grille et du plateau
 	public void sAjouterAuxVoisins(ArrayList<Case> listeCase){
 		
@@ -51,22 +47,25 @@ public class Case extends JPanel{
 			// Ajoute à la case courante, la case qui la précéde, dans ses voisins.
 			this.voisins.put(listeCase.get(this.getIndexArrayList()-1), Commun.Direction.getDirection(0, -1));
 			// Sachant qu'a la création de la case precedente, la case courante n'existait pas, on l'ajoute maintenant aux voisins de la case precedente.
-			listeCase.get(this.getIndexArrayList()-1).ajouterVoisin(this);
+			listeCase.get(this.getIndexArrayList()-1).voisins.put(this, Commun.Direction.getDirection(0, 1));
 			
 			if(this.i > 0) {
+				//Case en diagonale haut-gauche
 				this.voisins.put(listeCase.get(this.getIndexArrayList()-1-Commun.NOMBRECOLONNES), Commun.Direction.getDirection(-1, -1));
-				listeCase.get(this.getIndexArrayList()-1-Commun.NOMBRECOLONNES).ajouterVoisin(this);
+				listeCase.get(this.getIndexArrayList()-1-Commun.NOMBRECOLONNES).voisins.put(this,Commun.Direction.getDirection(1, 1));
 			}
 		}
 		
 		if(this.i > 0) {
+			//Case au dessus
 			this.voisins.put(listeCase.get(this.getIndexArrayList()-Commun.NOMBRECOLONNES), Commun.Direction.getDirection(-1, 0));
-			listeCase.get(this.getIndexArrayList()-Commun.NOMBRECOLONNES).ajouterVoisin(this);
+			listeCase.get(this.getIndexArrayList()-Commun.NOMBRECOLONNES).voisins.put(this, Commun.Direction.getDirection(1, 0));
 		}
 		
-		if(this.i < Commun.NOMBRECOLONNES && this.i > 0) {
-			this.voisins.put(listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES), Commun.Direction.getDirection(-1, +1));
-			listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES).ajouterVoisin(this);
+		if(this.i < Commun.NOMBRECOLONNES-1 && this.i > 0) {
+			//Case en diagonale-droite
+			this.voisins.put(listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES), Commun.Direction.getDirection(-1, 1));
+			listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES).voisins.put(this, Commun.Direction.getDirection(1, -1));
 		}
 	}
 
