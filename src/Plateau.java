@@ -13,8 +13,6 @@ public class Plateau extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 2516116318800873412L;
-	private static boolean voisinConnu;
-	
 	private int taille;
 	private Joueur joueurBlanc;
 	private Joueur joueurNoir; //plus simple de crï¿½er une classe jouer ?
@@ -102,21 +100,29 @@ public class Plateau extends JPanel{
 	}
 	
 	//affiche toutes les possibilites pour un joueur
-	public void afficherLesPossibilites(){
-		 for(int i=1; i<taille-1; i++){
-			 for(int j=1; j<taille-1; j++){
+	public int afficherLesPossibilites(){
+		int test = 0;
+		 for(int i=0; i<taille; i++){
+			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
+						System.out.println("On étudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
+						test = 1;
 					}
 			 	}
 				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
+						System.out.println("On étudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
+						test = 1;
 					}
 				}
-			} 
+			 }
+		
 		 }
+		 return test;
+		
 	}
 	
 	//affiche tout les possibilites pour une case donnee
@@ -142,6 +148,8 @@ public class Plateau extends JPanel{
 			
 			//on teste si le dernier pion est de la meme couleur que celle du joueur
 			if(color != pionSuivant.getCouleur()) {
+				System.out.println("On passe à la case : "+ caseSuivante.toString());
+
 				possibilite(caseSuivante, color, pair.getValue());
 			}
 			
@@ -151,6 +159,7 @@ public class Plateau extends JPanel{
 			}		
 			
 		});
+	
 		return;
 	}
 		
@@ -164,7 +173,13 @@ public class Plateau extends JPanel{
 		
 		//si la case est vide
 		if(!caseSuivante.isEtat()){
-			selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
+			if ((c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
+				return;
+			}
+			else {
+				System.out.println("On selectionne la case : "+ caseSuivante.toString());
+				selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
+			}
 			return;
 		}		
 		
@@ -176,10 +191,17 @@ public class Plateau extends JPanel{
 			return;
 		}
 		
+		//lorsqu'on arrive au bord du plateau
+		//if ((c.getVoisins() == null) && (c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
+		//	selectionnerCases(c.getI(), c.getJ());
+		//}
+		System.out.println("On passe à la case : "+ caseSuivante.toString());
+
 		possibilite(caseSuivante, color, d);
 				
 		return;	 
 	}		
+	
 
 	
 	public void actualiserPlateau(){
@@ -197,7 +219,6 @@ public class Plateau extends JPanel{
 		Couleur color = getPion(courante).getCouleur();
 					
 			    courante.getVoisins().entrySet().stream().forEach((couple) -> {
-				System.out.println("Couple, direction : "+couple.getValue());
 				// CrÃ©Ã© liste cases
 		        ArrayList<Case> listeCases = new ArrayList<Case>();
 		        
@@ -220,7 +241,6 @@ public class Plateau extends JPanel{
 		
 		// Retourne la case suivante en fonction de sa direction
 		int index = courante.getIndexArrayList() + direction.getI()*Commun.NOMBRECOLONNES+direction.getJ();
-		System.out.println("index: "+index);
 		
 		//Ne pas sortir du tableau
 		if (index<0 || index >63) return new ArrayList<Case>();
@@ -283,7 +303,10 @@ public class Plateau extends JPanel{
 			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			actualiserPlateau();	
 			afficherLesPossibilites();
-			
+			if (afficherLesPossibilites() == 0 ){
+				joueurNoir.setSonTour(true);
+				joueurBlanc.setSonTour(false);
+			}			
 		}
 		else {
 			System.out.println("---- tourBlanc ---- \n");
@@ -301,7 +324,41 @@ public class Plateau extends JPanel{
 			
 			actualiserPlateau();	
 			afficherLesPossibilites();
+			if (afficherLesPossibilites() == 0 ){
+				joueurNoir.setSonTour(true);
+				joueurBlanc.setSonTour(false);
+			}			
 		}
+		
+		if (finDePartie()){
+			System.out.println("La partie est terminée");
+			if (joueurNoir.getScore() < joueurBlanc.getScore()){
+				System.out.println("Bravo le joueur Blanc a gagné !!");
+			}
+			
+			else{
+				System.out.println("Bravo le joueur Noir a gagné !!");
+			}
+			
+		}
+	}
+	
+	
+	
+	public boolean finDePartie(){
+		int compt = 0;
+		for(int i=0; i<taille; i++){
+			 for(int j=0; j<taille; j++){	
+				 if (getCase(i,j).isEtat()){
+					 compt +=1;
+				 }
+			 }
+		}
+		
+		if (compt == 64){
+			return true;
+		}
+		return false;
 	}
 }
 

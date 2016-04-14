@@ -1,9 +1,12 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class Fenetre extends JFrame {
+public class Fenetre extends JFrame{
 	
 	/**
 	 * 
@@ -27,6 +30,15 @@ public class Fenetre extends JFrame {
 	}
 	
 	 public void menu(){
+		 
+		 Recommencer.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+			 
+		 });
 		//On initialise nos menus      
 		 this.Jeu.add(Recommencer);   
 		 //Ajout des menus de gauche à droite
