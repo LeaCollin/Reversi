@@ -17,9 +17,13 @@ public class Plateau extends JPanel{
 	private Joueur joueurBlanc;
 	private Joueur joueurNoir; //plus simple de crï¿½er une classe jouer ?
 	private ArrayList<Case> plateauCase;
+	private IA ordi;
+	private ArrayList<Case> casesposs;
 	 
 	public Plateau(int taille){
+		casesposs = new ArrayList<Case>();
 		this.taille = taille;
+		ordi = new IA();
 		joueurBlanc = new Joueur(Couleur.Blanc, false);
 		joueurNoir = new Joueur(Couleur.Noir, true);
 		plateauCase = new ArrayList<Case>();
@@ -106,14 +110,12 @@ public class Plateau extends JPanel{
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
-						System.out.println("On étudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
 			 	}
 				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
-						System.out.println("On étudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
@@ -148,8 +150,6 @@ public class Plateau extends JPanel{
 			
 			//on teste si le dernier pion est de la meme couleur que celle du joueur
 			if(color != pionSuivant.getCouleur()) {
-				System.out.println("On passe à la case : "+ caseSuivante.toString());
-
 				possibilite(caseSuivante, color, pair.getValue());
 			}
 			
@@ -163,43 +163,43 @@ public class Plateau extends JPanel{
 		return;
 	}
 		
-	public void possibilite(Case c, Couleur color,  Direction d){
+	public ArrayList<Case> possibilite(Case c, Couleur color,  Direction d){
 		int index = c.getIndexArrayList() + d.getI()*Commun.NOMBRECOLONNES + d.getJ();
 				
 	    //Ne pas sortir du tableau
-		if (index<0 || index >63) return;
+		if (index<0 || index >63) return casesposs;
 		
 		Case caseSuivante = plateauCase.get(index);
 		
 		//si la case est vide
 		if(!caseSuivante.isEtat()){
 			if ((c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
-				return;
+				return casesposs;
 			}
 			else {
-				System.out.println("On selectionne la case : "+ caseSuivante.toString());
+				casesposs.add(caseSuivante);
 				selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
+
 			}
-			return;
+			return casesposs;
 		}		
 		
 		// si la case est pleine on continue d'avancer
 		Pion pionSuivant = getPion(caseSuivante);
 			
-		//le pion suivant est de la mÃªme couleur qu'initial
+		//le pion suivant est de la meme couleur qu'initial
 		if (pionSuivant.getCouleur() == color){
-			return;
+			return casesposs;
 		}
 		
 		//lorsqu'on arrive au bord du plateau
 		//if ((c.getVoisins() == null) && (c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
 		//	selectionnerCases(c.getI(), c.getJ());
 		//}
-		System.out.println("On passe à la case : "+ caseSuivante.toString());
 
 		possibilite(caseSuivante, color, d);
 				
-		return;	 
+		return casesposs;	 
 	}		
 	
 
@@ -215,11 +215,11 @@ public class Plateau extends JPanel{
 	
 	public void checkCouleurPion(Case courante) {
 		
-		//RÃ©cupÃ¨re la couleur du pion de la case courante
+		//Recupere la couleur du pion de la case courante
 		Couleur color = getPion(courante).getCouleur();
 					
 			    courante.getVoisins().entrySet().stream().forEach((couple) -> {
-				// CrÃ©Ã© liste cases
+				// Cree liste cases
 		        ArrayList<Case> listeCases = new ArrayList<Case>();
 		        
 		        listeCases = checkRecursif(listeCases, courante, color, couple.getValue());
@@ -236,7 +236,7 @@ public class Plateau extends JPanel{
 	
 	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur color, Direction direction) {
 		
-		//On rÃ©cupÃ¨re le pion que l'on vient de mettre :
+		//On recupere le pion que l'on vient de mettre :
 		Pion pionCourant = getPion(courante);
 		
 		// Retourne la case suivante en fonction de sa direction
@@ -287,7 +287,7 @@ public class Plateau extends JPanel{
 		return 0;
 	}
 	
-	public void unePartie(Case c){
+	public void unePartieJcJ(Case c){
 		if (joueurNoir.isSonTour()){
 			System.out.println("---- tourNoir ---- \n");
 			ajouterPion(c, Couleur.Noir);
@@ -303,6 +303,7 @@ public class Plateau extends JPanel{
 			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			actualiserPlateau();	
 			afficherLesPossibilites();
+
 			if (afficherLesPossibilites() == 0 ){
 				joueurNoir.setSonTour(true);
 				joueurBlanc.setSonTour(false);
@@ -310,6 +311,7 @@ public class Plateau extends JPanel{
 		}
 		else {
 			System.out.println("---- tourBlanc ---- \n");
+
 			ajouterPion(c, Couleur.Blanc); 			
 			updateUI();
 			
@@ -324,6 +326,8 @@ public class Plateau extends JPanel{
 			
 			actualiserPlateau();	
 			afficherLesPossibilites();
+			System.out.println(casesposs);
+
 			if (afficherLesPossibilites() == 0 ){
 				joueurNoir.setSonTour(true);
 				joueurBlanc.setSonTour(false);
@@ -343,9 +347,86 @@ public class Plateau extends JPanel{
 		}
 	}
 	
+	public ArrayList<Case> TourJoueur(Case c){
+		if (joueurNoir.isSonTour()){
+			System.out.println("---- tourNoir ---- \n");
+			casesposs = new ArrayList<Case>();
+
+			ajouterPion(c, Couleur.Noir);
+			updateUI();				
+			
+			joueurNoir.setSonTour(false);
+			joueurBlanc.setSonTour(true);
+						
+			checkCouleurPion(c);
+			score();
+			
+			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+			actualiserPlateau();	
+			afficherLesPossibilites();
+			System.out.println(casesposs);
+
+			if (afficherLesPossibilites() == 0 ){
+				joueurNoir.setSonTour(true);
+				joueurBlanc.setSonTour(false);
+			}	
+			TourIA(casesposs);
+			return casesposs;
+		}
+		
+		if (finDePartie()){
+			System.out.println("La partie est terminée");
+			if (joueurNoir.getScore() < joueurBlanc.getScore()){
+				System.out.println("Dommage l'ordinateur a gagné !!");
+			}
+			
+			else{
+				System.out.println("Bravo vous avez gagné !!");
+			}
+		}
+		return new ArrayList<Case>();
+	}
+	
+	public void TourIA(ArrayList<Case> casesposs){
+		System.out.println("---- Tour Ordi ---- \n");
+		System.out.println(casesposs);
+		Case c = ordi.jouer(casesposs);
+		casesposs = new ArrayList<Case>();
+
+		updateUI();
+		
+		joueurNoir.setSonTour(true);
+		joueurBlanc.setSonTour(false);
+			
+		checkCouleurPion(c);
+		score();
+		
+		System.out.println("Score Noir : "+joueurNoir.getScore());
+		System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+		
+		actualiserPlateau();	
+		afficherLesPossibilites();
+		if (afficherLesPossibilites() == 0 ){
+			joueurNoir.setSonTour(true);
+			joueurBlanc.setSonTour(false);
+		}
+		
+		if (finDePartie()){
+			System.out.println("La partie est terminée");
+			if (joueurNoir.getScore() < joueurBlanc.getScore()){
+				System.out.println("Dommage l'ordi a gagné !!");
+			}
+			
+			else{
+				System.out.println("Bravo vous avez gagné !!");
+			}
+		}
+	}
 	
 	
-	public boolean finDePartie(){
+	
+	public boolean finDePartie(){ //gerer possibilite ou plateau non plein mais plus de possibilité
 		int compt = 0;
 		for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){	
