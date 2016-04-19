@@ -1,3 +1,5 @@
+package Jeu;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -47,5 +49,9 @@ public class Fenetre extends JFrame{
 		 this.setJMenuBar(menuBar);
 		 this.setVisible(true);
 	 }
+	 
+	 public void paintComponent(Graphics g){
+		    g.drawString("Tiens ! Le Site du Zéro !", 10, 20);
+		  }    
 	 
 }

@@ -1,3 +1,4 @@
+package Jeu;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -40,7 +41,7 @@ public class ActionSurCases implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		//Actions lorsqu'on relache la souris (� am�liorer)
 		if (c.isSelectionnee()){
-			plateau.unePartie(c);
+			plateau.TourJoueur(c);
 		}
 
 	}
