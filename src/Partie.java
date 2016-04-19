@@ -29,7 +29,7 @@ public class Partie {
 
 	public void jeu(){
 			tourBlanc = !tourBlanc;
-//			calculerScore();
+			calculerScore();
 			p.afficherLesPossibilites();
 
 		
