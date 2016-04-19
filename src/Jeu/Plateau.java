@@ -115,14 +115,12 @@ public class Plateau extends JPanel{
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
-						System.out.println("On etudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
 			 	}
 				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
-						System.out.println("On etudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
@@ -157,7 +155,6 @@ public class Plateau extends JPanel{
 			
 			//on teste si le dernier pion est de la meme couleur que celle du joueur
 			if(color != pionSuivant.getCouleur()) {
-				System.out.println("On passe � la case : "+ caseSuivante.toString());
 
 				possibilite(caseSuivante, color, pair.getValue());
 			}
@@ -200,14 +197,6 @@ public class Plateau extends JPanel{
 		if (pionSuivant.getCouleur() == color){
 			return casesposs;
 		}
-		
-		//lorsqu'on arrive au bord du plateau
-		//if ((c.getVoisins() == null) && (c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
-		//	selectionnerCases(c.getI(), c.getJ());
-		//}
-
-		System.out.println("On passe � la case : "+ caseSuivante.toString());
-
 
 		possibilite(caseSuivante, color, d);
 				
@@ -306,7 +295,7 @@ public class Plateau extends JPanel{
 		return 0;
 	}
 	
-	public void unePartieJcJ(Case c){
+	/*public void unePartieJcJ(Case c){
 		if (joueurNoir.isSonTour()){
 			System.out.println("\n ---- tourNoir ---- \n");
 			ajouterPion(c, Couleur.Noir);
@@ -364,7 +353,7 @@ public class Plateau extends JPanel{
 			}
 			
 		}
-	}
+	}*/
 	
 	public ArrayList<Case> TourJoueur(Case c){
 		if (joueurNoir.isSonTour()){
@@ -390,14 +379,14 @@ public class Plateau extends JPanel{
 				joueurNoir.setSonTour(true);
 				joueurBlanc.setSonTour(false);
 			}	
-			TourIA(casesposs);
+			TourIA();
 			return casesposs;
 		}
 		
 		if (finDePartie()){
-			System.out.println("La partie est termin�e");
+			System.out.println("La partie est terminee");
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
-				System.out.println("Dommage l'ordinateur a gagn� !!");
+				System.out.println("Dommage l'ordinateur a gagne !!");
 			}
 			
 			else{
@@ -407,7 +396,7 @@ public class Plateau extends JPanel{
 		return new ArrayList<Case>();
 	}
 	
-	public void TourIA(ArrayList<Case> casesposs){
+	public void TourIA(){
 		System.out.println("---- Tour Ordi ---- \n");
 		Case c = ordi.jouer(casesposs);
 		if (c != null){
