@@ -1,3 +1,6 @@
+package Joueur;
+
+import Jeu.Couleur;
 
 public class Joueur {
 	

@@ -1,3 +1,6 @@
+package Jeu;
+
+import Joueur.Joueur;
 
 public class Partie {
 

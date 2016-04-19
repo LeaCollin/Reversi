@@ -1,3 +1,4 @@
+package Jeu;
 //Classe ok ne plus toucher
 
 import java.awt.Color;

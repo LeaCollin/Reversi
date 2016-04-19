@@ -1,3 +1,4 @@
+package Jeu;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -5,6 +6,8 @@ import javax.swing.JPanel;
 
 import Commun.Commun;
 import Commun.Commun.Direction;
+import Joueur.Joueur;
+import Joueur.OrdiRandom;
 
 
 public class Plateau extends JPanel{
@@ -17,13 +20,13 @@ public class Plateau extends JPanel{
 	private Joueur joueurBlanc;
 	private Joueur joueurNoir; //plus simple de crï¿½er une classe jouer ?
 	private ArrayList<Case> plateauCase;
-	private IA ordi;
+	private OrdiRandom ordi;
 	private ArrayList<Case> casesposs;
 	 
 	public Plateau(int taille){
 		casesposs = new ArrayList<Case>();
 		this.taille = taille;
-		ordi = new IA();
+		ordi = new OrdiRandom();
 		joueurBlanc = new Joueur(Couleur.Blanc, false);
 		joueurNoir = new Joueur(Couleur.Noir, true);
 		plateauCase = new ArrayList<Case>();
@@ -289,7 +292,7 @@ public class Plateau extends JPanel{
 	
 	public void unePartieJcJ(Case c){
 		if (joueurNoir.isSonTour()){
-			System.out.println("---- tourNoir ---- \n");
+			System.out.println("\n ---- tourNoir ---- \n");
 			ajouterPion(c, Couleur.Noir);
 			updateUI();				
 			
@@ -310,7 +313,7 @@ public class Plateau extends JPanel{
 			}			
 		}
 		else {
-			System.out.println("---- tourBlanc ---- \n");
+			System.out.println("\n ---- tourBlanc ---- \n");
 
 			ajouterPion(c, Couleur.Blanc); 			
 			updateUI();
@@ -326,7 +329,6 @@ public class Plateau extends JPanel{
 			
 			actualiserPlateau();	
 			afficherLesPossibilites();
-			System.out.println(casesposs);
 
 			if (afficherLesPossibilites() == 0 ){
 				joueurNoir.setSonTour(true);
@@ -390,16 +392,20 @@ public class Plateau extends JPanel{
 	
 	public void TourIA(ArrayList<Case> casesposs){
 		System.out.println("---- Tour Ordi ---- \n");
-		System.out.println(casesposs);
 		Case c = ordi.jouer(casesposs);
+		if (c != null){
+			ajouterPion(c, Couleur.Blanc);
+		}
 		casesposs = new ArrayList<Case>();
 
 		updateUI();
 		
 		joueurNoir.setSonTour(true);
 		joueurBlanc.setSonTour(false);
-			
-		checkCouleurPion(c);
+		
+		if (c != null){
+			checkCouleurPion(c);
+		}
 		score();
 		
 		System.out.println("Score Noir : "+joueurNoir.getScore());
@@ -414,6 +420,8 @@ public class Plateau extends JPanel{
 		
 		if (finDePartie()){
 			System.out.println("La partie est terminée");
+			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
 				System.out.println("Dommage l'ordi a gagné !!");
 			}
