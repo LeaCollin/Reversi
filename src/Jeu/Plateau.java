@@ -2,6 +2,8 @@ package Jeu;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Commun.Commun;
@@ -215,15 +217,8 @@ public class Plateau extends JPanel{
 
 	
 	public void actualiserPlateau(){
-		int test;
 		for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
-            	if (getCase(i,j).isSelectionnee()){
-            		test=1;
-            	}
-            	/*if (test==0){
-            		finDePartie()==true;
-            	}*/
             	getCase(i,j).setSelectionnee(false);
             }
 		}
@@ -434,16 +429,24 @@ public class Plateau extends JPanel{
 		}
 		
 		if (finDePartie()){
-			System.out.println("La partie est termin�e");
-			System.out.println("Score Noir : "+joueurNoir.getScore());
-			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+			//Quand on clique sur ok: fermer la fentre avec dispose
+			ImageIcon img;
+			JOptionPane jop = new JOptionPane();
+			String fin = "La partie est terminee \n";
+			fin += "\nScore Noir : "+joueurNoir.getScore();
+			fin += "\nScore Blanc : "+joueurBlanc.getScore()+"\n";
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
-				System.out.println("Dommage l'ordi a gagn� !!");
+				fin += "\nDommage l'ordi a gagne !!";
+				img = new ImageIcon("images/looser.jpg");
 			}
 			
 			else{
-				System.out.println("Bravo vous avez gagn� !!");
+				fin += "\nBravo vous avez gagne !!";
+				img = new ImageIcon("images/winner.png");
+
 			}
+	        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img);        
+
 		}
 	}
 	
