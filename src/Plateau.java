@@ -106,14 +106,14 @@ public class Plateau extends JPanel{
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
-						System.out.println("On étudie la case : "+ getCase(i,j).toString());
+						System.out.println("On etudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
 			 	}
 				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
-						System.out.println("On étudie la case : "+ getCase(i,j).toString());
+						System.out.println("On etudie la case : "+ getCase(i,j).toString());
 						possibilite(getCase(i,j));
 						test = 1;
 					}
@@ -148,7 +148,7 @@ public class Plateau extends JPanel{
 			
 			//on teste si le dernier pion est de la meme couleur que celle du joueur
 			if(color != pionSuivant.getCouleur()) {
-				System.out.println("On passe à la case : "+ caseSuivante.toString());
+				System.out.println("On passe ï¿½ la case : "+ caseSuivante.toString());
 
 				possibilite(caseSuivante, color, pair.getValue());
 			}
@@ -195,7 +195,7 @@ public class Plateau extends JPanel{
 		//if ((c.getVoisins() == null) && (c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
 		//	selectionnerCases(c.getI(), c.getJ());
 		//}
-		System.out.println("On passe à la case : "+ caseSuivante.toString());
+		System.out.println("On passe ï¿½ la case : "+ caseSuivante.toString());
 
 		possibilite(caseSuivante, color, d);
 				
@@ -205,8 +205,15 @@ public class Plateau extends JPanel{
 
 	
 	public void actualiserPlateau(){
+		int test;
 		for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
+            	if (getCase(i,j).isSelectionnee()){
+            		test=1;
+            	}
+            	if (test==0){
+            		finDePartie()==true;
+            	}
             	getCase(i,j).setSelectionnee(false);
             }
 		}
@@ -327,17 +334,18 @@ public class Plateau extends JPanel{
 			if (afficherLesPossibilites() == 0 ){
 				joueurNoir.setSonTour(true);
 				joueurBlanc.setSonTour(false);
-			}			
+			}
 		}
 		
 		if (finDePartie()){
-			System.out.println("La partie est terminée");
+			score();
+			System.out.println("\n La partie est terminee");
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
-				System.out.println("Bravo le joueur Blanc a gagné !!");
+				System.out.println("Bravo le joueur Blanc a gagne !!");
 			}
 			
 			else{
-				System.out.println("Bravo le joueur Noir a gagné !!");
+				System.out.println("Bravo le joueur Noir a gagne !!");
 			}
 			
 		}
