@@ -278,8 +278,8 @@ public class Plateau extends JPanel{
 	public int score(){
 		joueurNoir.setScore(0);
 		joueurBlanc.setScore(0);
-		for(int i=0; i<taille-1; i++){
-			 for(int j=0; j<taille-1; j++){
+		for(int i=0; i<taille; i++){
+			 for(int j=0; j<taille; j++){
 				 if (getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
 						joueurNoir.setScore(joueurNoir.getScore()+1);			 
