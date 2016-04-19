@@ -109,26 +109,22 @@ public class Plateau extends JPanel{
 	}
 	
 	//affiche toutes les possibilites pour un joueur
-	public int afficherLesPossibilites(){
-		int test = 0;
+	public void afficherLesPossibilites(){
 		 for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Noir){
 						possibilite(getCase(i,j));
-						test = 1;
 					}
 			 	}
 				if (joueurBlanc.isSonTour() && getCase(i,j).isEtat()){
 					if (getPion(i,j).getCouleur() == Couleur.Blanc){
 						possibilite(getCase(i,j));
-						test = 1;
 					}
 				}
 			 }
 		
 		 }
-		 return test;
 		
 	}
 	
@@ -212,9 +208,6 @@ public class Plateau extends JPanel{
             	if (getCase(i,j).isSelectionnee()){
             		test=1;
             	}
-            	/*if (test==0){
-            		finDePartie()==true;
-            	}*/
             	getCase(i,j).setSelectionnee(false);
             }
 		}
@@ -375,7 +368,7 @@ public class Plateau extends JPanel{
 			afficherLesPossibilites();
 			System.out.println(casesposs);
 
-			if (afficherLesPossibilites() == 0 ){
+			if (casesposs.size() == 0 ){
 				joueurNoir.setSonTour(true);
 				joueurBlanc.setSonTour(false);
 			}	
@@ -419,7 +412,7 @@ public class Plateau extends JPanel{
 		
 		actualiserPlateau();	
 		afficherLesPossibilites();
-		if (afficherLesPossibilites() == 0 ){
+		if (casesposs.size() == 0 ){
 			joueurNoir.setSonTour(true);
 			joueurBlanc.setSonTour(false);
 		}
