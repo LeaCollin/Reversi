@@ -217,8 +217,15 @@ public class Plateau extends JPanel{
 
 	
 	public void actualiserPlateau(){
+		int test;
 		for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
+            	if (getCase(i,j).isSelectionnee()){
+            		test=1;
+            	}
+            	/*if (test==0){
+            		finDePartie()==true;
+            	}*/
             	getCase(i,j).setSelectionnee(false);
             }
 		}
