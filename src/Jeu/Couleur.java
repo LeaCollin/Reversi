@@ -1,5 +1,6 @@
 package Jeu;
 	public enum Couleur {
 		Blanc,
-		Noir,	
+		Blue,
+		Attente,
 	}

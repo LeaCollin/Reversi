@@ -63,7 +63,7 @@ public class Case extends JPanel{
 			listeCase.get(this.getIndexArrayList()-Commun.NOMBRECOLONNES).voisins.put(this, Commun.Direction.getDirection(1, 0));
 		}
 		
-		if(this.i < Commun.NOMBRECOLONNES-1 && this.i > 0) {
+		if(this.j < Commun.NOMBRECOLONNES-1 && this.i > 0) {
 			//Case en diagonale-droite
 			this.voisins.put(listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES), Commun.Direction.getDirection(-1, 1));
 			listeCase.get(this.getIndexArrayList()+1-Commun.NOMBRECOLONNES).voisins.put(this, Commun.Direction.getDirection(1, -1));
@@ -135,5 +135,16 @@ public class Case extends JPanel{
     
     public String toString() {
     	return "Case : "+this.getI()+":"+this.getJ()+" => "+this.isEtat();
+    }
+    
+    public void caseEnEvidence(){
+    	setBackground(Color.BLUE);
+    	try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 }

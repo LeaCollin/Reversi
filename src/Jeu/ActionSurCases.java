@@ -1,6 +1,10 @@
 package Jeu;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JOptionPane;
 
 public class ActionSurCases implements MouseListener{
 
@@ -34,15 +38,36 @@ public class ActionSurCases implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {	
-		
+		if (c.isSelectionnee()){
+			plateau.TourJoueur(c);
+		} else {
+			JOptionPane jop = new JOptionPane();
+			String erreur = "Erreur, cliquez sur une case rouge! ";
+	        jop.showMessageDialog(null, erreur, "Erreur", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//Actions lorsqu'on relache la souris (� am�liorer)
-		if (c.isSelectionnee()){
-			plateau.TourJoueur(c);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		
+		Case c = plateau.initTourIA();
+
+		Timer timer = new Timer();
+        timer.schedule (new TimerTask() {
+            public void run()
+            {
+                plateau.TourIA(c);
+                
+            }
+        }, 2000);
+        
 
 	}
 		

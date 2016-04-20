@@ -73,8 +73,8 @@ public class Fenetre extends JFrame{
 		 point.addActionListener(new ActionListener(){
 		    public void actionPerformed(ActionEvent arg0) {
 		        JOptionPane jop = new JOptionPane();
-		        String apropos = "Ce jeu a été créé par \nMélanie Petitcuenot (la plus belle) et Léa Collin \nElèves de 3ème année Informatique à  Polytech Lyon";     
-		        jop.showMessageDialog(null, apropos, "à propos", JOptionPane.INFORMATION_MESSAGE);        
+		        String apropos = "Ce jeu a ete cree par \n Melanie Petitcuenot (la plus belle) et Lea Collin \nEleves de 3eme annee Informatique a Polytech Lyon";     
+		        jop.showMessageDialog(null, apropos, "A propos", JOptionPane.INFORMATION_MESSAGE);        
 		      }            
 		    });
 		 this.Apropos.add(point);
