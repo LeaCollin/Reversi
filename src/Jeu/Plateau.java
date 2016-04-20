@@ -149,6 +149,11 @@ public class Plateau extends JPanel{
 			
 			Case caseSuivante = plateauCase.get(index);
 
+			//ne pas passer à la ligne
+			if (!c.getVoisins().containsKey(caseSuivante)){
+				return;
+			}
+
 			// Si la case est vide, notre pion n'entoure pas des pions adverses donc on ne fait rien.
 			if(!caseSuivante.isEtat())
 				return;
@@ -174,22 +179,21 @@ public class Plateau extends JPanel{
 		
 	public ArrayList<Case> possibilite(Case c, Couleur color,  Direction d){
 		int index = c.getIndexArrayList() + d.getI()*Commun.NOMBRECOLONNES + d.getJ();
-				
-	    //Ne pas sortir du tableau
-		if (index<0 || index >63) return casesposs;
 		
+		//Ne pas sortir du tableau 
+		if (index<0 || index >63) return casesposs;
+
 		Case caseSuivante = plateauCase.get(index);
 		
+	    //ne pas passer à la ligne
+		if (!c.getVoisins().containsKey(caseSuivante)){
+			return casesposs;
+		}
+
 		//si la case est vide
 		if(!caseSuivante.isEtat()){
-			if ((c.getI() == 0 || c.getJ() == 0 || c.getI() == 7 || c.getJ() == 7)){
-				return casesposs;
-			}
-			else {
-				casesposs.add(caseSuivante);
-				selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
-
-			}
+			casesposs.add(caseSuivante);
+			selectionnerCases(caseSuivante.getI(), caseSuivante.getJ());
 			return casesposs;
 		}		
 		
@@ -255,7 +259,12 @@ public class Plateau extends JPanel{
 		
 		Case caseSuivante = plateauCase.get(index);
 
-		
+		//ne pas passer à la ligne
+		if (!courante.getVoisins().containsKey(caseSuivante)){
+				return new ArrayList<Case>();
+		}
+
+				
 		if (!caseSuivante.isEtat()) return new ArrayList<Case>();
 					
 		// si la case est pleine on continue d'avancer

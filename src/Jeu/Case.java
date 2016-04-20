@@ -137,14 +137,5 @@ public class Case extends JPanel{
     	return "Case : "+this.getI()+":"+this.getJ()+" => "+this.isEtat();
     }
     
-    public void caseEnEvidence(){
-    	setBackground(Color.BLUE);
-    	try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    }
+
 }
