@@ -1,6 +1,8 @@
 package Jeu;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -21,8 +23,8 @@ public class Plateau extends JPanel{
 	 */
 	private static final long serialVersionUID = 2516116318800873412L;
 	private int taille;
-	private Joueur joueurBlanc;
-	private Joueur joueurNoir; //plus simple de cr�er une classe jouer ?
+	public Joueur joueurBlanc;
+	public Joueur joueurNoir; //plus simple de cr�er une classe jouer ?
 	private ArrayList<Case> plateauCase;
 	private OrdiRandom ordi;
 	private ArrayList<Case> casesposs;
@@ -385,8 +387,7 @@ public class Plateau extends JPanel{
 			//System.out.println(casesposs);
 
 			if (casesposs.size() == 0 ){
-				joueurNoir.setSonTour(true);
-				joueurBlanc.setSonTour(false);
+				return casesposs;
 			}	
 			return casesposs;
 		}
@@ -406,30 +407,24 @@ public class Plateau extends JPanel{
 	
 	public void TourIA(Case c) {
 	
-		suppPion(c);
-		ajouterPion(c, Couleur.Blanc);
-		
-		casesposs = new ArrayList<Case>();
+		if (c!=null){
+			suppPion(c);
+			ajouterPion(c, Couleur.Blanc);
+			
+			casesposs = new ArrayList<Case>();
+			
+			checkCouleurPion(c);
+			score();
+			
+			updateUI();
 
+			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+			
+			actualiserPlateau();	
+		}
 		joueurNoir.setSonTour(true);
 		joueurBlanc.setSonTour(false);
-		
-		if (c != null){
-			checkCouleurPion(c);
-		}
-		score();
-		
-		updateUI();
-
-		System.out.println("Score Noir : "+joueurNoir.getScore());
-		System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
-		
-		actualiserPlateau();	
-		afficherLesPossibilites();
-		if (casesposs.size() == 0 ){
-			joueurNoir.setSonTour(true);
-			joueurBlanc.setSonTour(false);
-		}
 		
 		if (finDePartie()){
 			//Quand on clique sur ok: fermer la fentre avec dispose
@@ -443,14 +438,41 @@ public class Plateau extends JPanel{
 				img = new ImageIcon("images/looser.jpg");
 			}
 			else if(joueurNoir.getScore()==joueurBlanc.getScore()){
-				fin += "\n Egalité!";
+				fin += "\n Egalite!";
 				img = new ImageIcon() ; //Rajouter une image !!
 				} else {
 					fin += "\nBravo vous avez gagne !!";
 					img = new ImageIcon("images/winner.png");
 					}
-	        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img);        
+	        jop.showMessageDialog(null, fin, "Fin de la partie", JOptionPane.INFORMATION_MESSAGE,img); 
+	        return;
 
+		}
+		
+		afficherLesPossibilites();
+		
+		if (casesposs.size() == 0){
+			joueurNoir.setSonTour(false);
+			joueurBlanc.setSonTour(true);
+			afficherLesPossibilites();
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			Case ca = initTourIA();
+
+			Timer timer = new Timer();
+	        timer.schedule (new TimerTask() {
+	            public void run()
+	            {
+	                TourIA(ca);    
+	                
+	            }
+	        }, 1000);  
 		}
 	}
 	

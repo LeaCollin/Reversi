@@ -37,7 +37,7 @@ public class ActionSurCases implements MouseListener{
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {	
+	public void mousePressed(MouseEvent e) {
 		if (c.isSelectionnee()){
 			plateau.TourJoueur(c);
 		} else {
@@ -51,23 +51,22 @@ public class ActionSurCases implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		
 		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Case c = plateau.initTourIA();
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			Case c = plateau.initTourIA();
 
-		Timer timer = new Timer();
-        timer.schedule (new TimerTask() {
-            public void run()
-            {
-                plateau.TourIA(c);
-                
-            }
-        }, 1000);
-        
+			Timer timer = new Timer();
+	        timer.schedule (new TimerTask() {
+	            public void run()
+	            {
+	                plateau.TourIA(c);
+	                
+	            }
+	        }, 1000);     
 
 	}
 		
