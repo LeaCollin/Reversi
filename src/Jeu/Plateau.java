@@ -27,15 +27,14 @@ public class Plateau extends JPanel{
 	public Joueur joueurBlanc;
 	public Joueur joueurNoir; //plus simple de cr�er une classe jouer ?
 	private ArrayList<Case> plateauCase;
-	private OrdiRandom ordi;
-	//private OrdiAmeliore ordi;
+	//private OrdiRandom ordi;
+	private OrdiAmeliore ordi;
 	private ArrayList<Case> casesposs;
 	 
 	public Plateau(int taille){
 		casesposs = new ArrayList<Case>();
 		this.taille = taille;
-		ordi = new OrdiRandom();
-		//ordi = new OrdiAmeliore(this);
+		//ordi = new OrdiRandom();
 		joueurBlanc = new Joueur(Couleur.Blanc, false);
 		joueurNoir = new Joueur(Couleur.Blue, true);
 		plateauCase = new ArrayList<Case>();
@@ -117,6 +116,7 @@ public class Plateau extends JPanel{
 	
 	//affiche toutes les possibilites pour un joueur
 	public void afficherLesPossibilites(){
+        ordi = new OrdiAmeliore(this);
 		 for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){

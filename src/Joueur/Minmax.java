@@ -1,45 +1,55 @@
-package Joueur;
+/*package Joueur;
 
-import java.util.ArrayList;
-
-import Jeu.*;
+import Jeu.Case;
+import Jeu.Plateau;
 
 public class Minmax {
 	
-	private Plateau plateauInit;		//permet de garder la disposition des pions avant simulation de coups
-	private Plateau plateauMod;	
-	private int maxVal;
-	private int minVal;
-	private int profondeur;
-	private ArrayList<Case> casesposs;
+	private Plateau p;
+
+	public int[][] plateau = {
+			{30 , -30, 10, 5, 5, 10, -30, 30},
+			{-30, -30, 1,  1,1, 1, -30, -30},
+			{10, 1,5,2,2,5,1,10},
+			{5,1,2,1,1,2,1,5},
+			{5,1,2,1,1,2,1,5},
+			{5,1,2,1,1,2,1,5},
+			{-30, -30, 1,  1,1, 1, -30, -30},
+			{30 , -30, 10, 5, 5, 10, -30, 30},
+	};
 	
-	public Minmax(Plateau plateau){
-		plateauInit = plateau;
-		
+	public Case jouer(){
+		//utilise MinMax
 	}
 	
-	public void jouer(){
-		
-	}
-	
-	public int min(){
-		if (profondeur == 0 || plateauMod.finDePartie()){
-			return eval();
+	public int minMax(int profondeur, Joueur joueur){
+		if (p.finDePartie() || profondeur==0){
+			return eval(); //evaluation pour l'ordinateur
 		}
 		
-		for (Case c : casesposs){
+		int max; //Valeur du score au mieux possible
+		int min;
+		int score = 0;
+		
+		//initialisation des valeurs max
+		min=Integer.MIN_VALUE; //-l'infini //pour le joueur ordi
+		max=Integer.MAX_VALUE; //+l'infini // pour nous
+		
+		for (){
 			
 		}
-		return 0;
-	}
-	
-	public void max(){
+		
+		
 		
 	}
 	
-	public int eval(){
-		return 0;
-		
+	public ArrayList<Case> possibilites(){
+		ArrayList<Case> possibilites = new ArrayList<>();
+		for(Case c : p.case)
+		{
+			// si c'est une possiblité
+		}
 	}
+	
 
-}
+}*/
