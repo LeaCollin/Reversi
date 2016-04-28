@@ -33,7 +33,8 @@ public class Fenetre extends JFrame{
 	    this.setLocationRelativeTo(null);
 	    //empecher la redimension
 	    setResizable(false);
-	    add(new Plateau(8));
+	    Plateau plat = new Plateau(8);
+	    add(plat);
 	    menu();
 	}
 	

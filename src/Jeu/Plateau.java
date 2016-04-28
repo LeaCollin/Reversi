@@ -13,6 +13,7 @@ import com.sun.prism.paint.Color;
 import Commun.Commun;
 import Commun.Commun.Direction;
 import Joueur.Joueur;
+import Joueur.OrdiAmeliore;
 import Joueur.OrdiRandom;
 
 
@@ -27,13 +28,14 @@ public class Plateau extends JPanel{
 	public Joueur joueurNoir; //plus simple de cr�er une classe jouer ?
 	private ArrayList<Case> plateauCase;
 	private OrdiRandom ordi;
+	//private OrdiAmeliore ordi;
 	private ArrayList<Case> casesposs;
-	private Boolean IApeutcontinue = false;
 	 
 	public Plateau(int taille){
 		casesposs = new ArrayList<Case>();
 		this.taille = taille;
 		ordi = new OrdiRandom();
+		//ordi = new OrdiAmeliore(this);
 		joueurBlanc = new Joueur(Couleur.Blanc, false);
 		joueurNoir = new Joueur(Couleur.Blue, true);
 		plateauCase = new ArrayList<Case>();
@@ -67,10 +69,6 @@ public class Plateau extends JPanel{
 	     afficherLesPossibilites();
 
 	 }
-	 
-	public Boolean isIApeutcontinuer(){
-		return IApeutcontinue;
-	}
 	
 	public Case getCase(int i, int j){
 	    return (Case) getComponent(j+i*taille);
@@ -226,28 +224,6 @@ public class Plateau extends JPanel{
 		}
 	}
 	
-	
-	public void checkCouleurPion(Case courante) {
-		
-		//Recupere la couleur du pion de la case courante
-		Couleur color = getPion(courante).getCouleur();
-				System.out.println(courante.getVoisins().values());
-			    courante.getVoisins().entrySet().stream().forEach((couple) -> {
-				// Cree liste cases
-		        ArrayList<Case> listeCases = new ArrayList<Case>();
-		        
-		        listeCases = checkRecursif(listeCases, courante, color, couple.getValue());
-		        
-		        if(listeCases.size() > 0) {
-			        for(Case caseOk : listeCases) {
-			        	suppPion(caseOk);
-			    		ajouterPion(caseOk, color);
-			        }
-		        }
-	    	});
-	}
-	
-	
 	public ArrayList<Case> checkRecursif(ArrayList<Case> liste, Case courante, Couleur color, Direction direction) {
 		
 		//On recupere le pion que l'on vient de mettre :
@@ -377,10 +353,10 @@ public class Plateau extends JPanel{
 			joueurNoir.setSonTour(false);
 			joueurBlanc.setSonTour(true);
 						
-			checkCouleurPion(c);
+			c.checkCouleurPion(this,c);
 			score();
 			
-			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Bleu : "+joueurNoir.getScore());
 			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			actualiserPlateau();	
 			afficherLesPossibilites();
@@ -399,6 +375,7 @@ public class Plateau extends JPanel{
 		Case c = ordi.jouer(casesposs);
 		if (c!=null){
 			c.setSelectionnee(false);
+			System.out.println("Cocuou point vert");
 			ajouterPion(c, Couleur.Attente);
 			updateUI();	
 		}
@@ -413,12 +390,12 @@ public class Plateau extends JPanel{
 			
 			casesposs = new ArrayList<Case>();
 			
-			checkCouleurPion(c);
+			c.checkCouleurPion(this,c);
 			score();
 			
 			updateUI();
 
-			System.out.println("Score Noir : "+joueurNoir.getScore());
+			System.out.println("Score Bleu : "+joueurNoir.getScore());
 			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
 			
 			actualiserPlateau();	
@@ -431,7 +408,7 @@ public class Plateau extends JPanel{
 			ImageIcon img;
 			JOptionPane jop = new JOptionPane();
 			String fin = "La partie est terminee \n";
-			fin += "\nScore Noir : "+joueurNoir.getScore();
+			fin += "\nScore Bleu : "+joueurNoir.getScore();
 			fin += "\nScore Blanc : "+joueurBlanc.getScore()+"\n";
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
 				fin += "\nDommage l'ordi a gagne !!";
