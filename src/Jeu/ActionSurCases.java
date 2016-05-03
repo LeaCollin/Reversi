@@ -51,7 +51,7 @@ public class ActionSurCases implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		
 		try {
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

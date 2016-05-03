@@ -10,17 +10,17 @@ import Jeu.Plateau;
 public class OrdiAmeliore {
 	
 	private int[][] copiePlateau = new int[8][8];
-	private int compt=0;
+	private int compt;
 	private Case bestCase;
 	
 	public OrdiAmeliore(Plateau plat){
 		 copiePlateau=copiePlat(plat);
-		 for(int i=0; i<8; i++){
+		 /*for(int i=0; i<8; i++){
 	            for(int j=0; j<8; j++){
 	            	System.out.print(copiePlateau[i][j]);
 	            }
 	            System.out.println();
-		 }
+		 }*/
 	}
 	
 	public int[][] pointsCase = {
@@ -35,6 +35,8 @@ public class OrdiAmeliore {
 	};
 	
 	public Case jouer(ArrayList<Case> possibilite){
+		bestCase=null;
+		compt=0;
 		if (possibilite.size() != 0){
 				if (coin(possibilite)){
 					return bestCase;
@@ -91,9 +93,12 @@ public class OrdiAmeliore {
 		int score = 0;
 		for (Case c : possibilite){
 			//if (c==null) return null;
-			if (score < nombrePoints(c)){
+			System.out.println("score avant if : "+score );
+			int nb = nombrePoints(c);
+			System.out.println(c.toString()+" points: "+nb );
+			if (score < nb){
 				bestCase = c;
-				score  = nombrePoints(c);
+				score  = nb;
 				System.out.println("score ="+score +"\n bestcase = " +bestCase);
 			}
 		}
@@ -104,8 +109,6 @@ public class OrdiAmeliore {
 	public int checkRecursif(int compteur, int i, int j, Direction direction) {
 		//On met a un la case du pion que l'on vient de poser :
 
-		copiePlateau[i][j]=1;	
-
 		i+=direction.getI();
 		j+=direction.getJ();
 
@@ -113,22 +116,26 @@ public class OrdiAmeliore {
 		if (i < 0 || i > 7 || j > 7 || j < 0 ) return compteur;
 
 		if (copiePlateau[i][j]==1){
-			System.out.println("hi");
-			System.out.println(compteur);
+			//System.out.println("hi");
+			//System.out.println(compteur);
 			return compteur;
 		}
 		if (copiePlateau[i][j] == 2){
-			System.out.println("check");
+			//System.out.println("check");
 			compteur+=1;
-			System.out.println(compteur);
+			//System.out.println(compteur);
 
-			checkRecursif(compteur, i,j, direction);
-		}		
+			checkRecursif(compteur, i+direction.getI(),j+direction.getJ(), direction);
+		}
+		if (copiePlateau[i][j] == 0){
+			return 0;
+		}
 		return compteur;
 	}
 
 public int nombrePoints(Case courante) {
-	// Cree un compteur de cases
+	compt = 0;
+	//Cree un compteur de cases
 	//int i = courante.getI(); 
 	//int j = courante.getJ();
 	
@@ -143,7 +150,7 @@ public int nombrePoints(Case courante) {
 			return;
 		}
 		
-		compt += checkRecursif(1,courante.getI(),courante.getJ(), couple.getValue());
+		compt += checkRecursif(1,i,j, couple.getValue());
 		//System.out.println(couple.getValue()+" , "+compt);
 	});
 	return compt;
