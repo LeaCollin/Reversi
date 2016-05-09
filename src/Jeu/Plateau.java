@@ -42,6 +42,7 @@ public class Plateau extends JPanel{
             }
         }
         init();
+        ordi = new OrdiAmeliore();
     }
 	
 	private void ajouterCase(int i, int j){
@@ -113,7 +114,6 @@ public class Plateau extends JPanel{
 	
 	//affiche toutes les possibilites pour un joueur
 	public void afficherLesPossibilites(){
-        ordi = new OrdiAmeliore(this);
 		 for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
@@ -369,7 +369,7 @@ public class Plateau extends JPanel{
 	
 	public Case initTourIA(){
 		System.out.println("---- Tour Ordi ---- \n");
-		Case c = ordi.jouer(casesposs);
+		Case c = ordi.jouer(casesposs,this);
 		if (c!=null){
 			c.setSelectionnee(false);
 			System.out.println("Cocuou point vert");

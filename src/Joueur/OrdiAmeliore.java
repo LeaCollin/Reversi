@@ -11,17 +11,11 @@ public class OrdiAmeliore {
 	
 	private int[][] copiePlateau = new int[8][8];
 	private int compt;
-	private int poss;
+	private int compteurInterne;
 	private Case bestCase;
 	
-	public OrdiAmeliore(Plateau plat){
-		 copiePlateau=copiePlat(plat);
-		 /*for(int i=0; i<8; i++){
-	            for(int j=0; j<8; j++){
-	            	System.out.print(copiePlateau[i][j]);
-	            }
-	            System.out.println();
-		 }*/
+	public OrdiAmeliore(){
+		
 	}
 	
 	public int[][] pointsCase = {
@@ -35,9 +29,15 @@ public class OrdiAmeliore {
 			{  30, -30, 10, 5, 5, 10, -30,  30},
 	};
 	
-	public Case jouer(ArrayList<Case> possibilite){
+	public Case jouer(ArrayList<Case> possibilite, Plateau plat){
+		copiePlateau=copiePlat(plat);
+		 /*for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+        	System.out.print(copiePlateau[i][j]);
+        }
+        System.out.println();
+ 		}*/
 		bestCase=null;
-		compt=0;
 		if (possibilite.size() != 0){
 				if (coin(possibilite)){
 					return bestCase;
@@ -91,53 +91,60 @@ public class OrdiAmeliore {
 	}*/
 	
 	public Case meilleurCoup(ArrayList<Case> possibilite){
-		int score = 0;
+		int score=0;
 		for (Case c : possibilite){
 			//if (c==null) return null;
 			System.out.println("score avant if : "+score );
 			int nb = nombrePoints(c);
-			System.out.println(c.toString()+" points: "+nb );
+			System.out.println(c.toString()+" points: "+nb+"\n" );
 			if (score < nb){
 				bestCase = c;
 				score  = nb;
-				System.out.println("score ="+score +"\n bestcase = " +bestCase);
+				System.out.println("\n score ="+score +"\n bestcase = " +bestCase+"\n");
 			}
 		}
 		return bestCase;
 	}
 	
 	
-	public int checkRecursif(int compteur, int i, int j, Direction direction) {
-		//On met a un la case du pion que l'on vient de poser :
+	public void checkRecursif(int i, int j, Direction direction) {
 
 		i+=direction.getI();
 		j+=direction.getJ();
 
 		//Ne pas sortir du tableau
-		if (i < 0 || i > 7 || j > 7 || j < 0 ) return compteur;
+		if (i < 0 || i > 7 || j > 7 || j < 0 ) {
+			compteurInterne=0;
+			System.out.println("hors du tableau -> "+compteurInterne);
+			return;
+		}
 
-		if (copiePlateau[i][j]==1){
-			System.out.println("compt pbc = "+compt);
-
-			return compteur;
+		//Si on tombe dans le vide avant de rencontrer un autre blanc
+		if (copiePlateau[i][j] == 0){
+			compteurInterne=0;
+			System.out.println("case vide -> "+compteurInterne);
+			return;
 		}
 		if (copiePlateau[i][j] == 2){
-			compteur+=1;
-			System.out.println("récursif");
+			compteurInterne+=1;
+			System.out.println("pion bleu -> "+compteurInterne);
 			
-			checkRecursif(compteur, i+direction.getI(),j+direction.getJ(), direction);
-			System.out.println("compt pbl = "+compt);
+			checkRecursif(i,j, direction);
+			return;
 		}
-		if (copiePlateau[i][j] == 0){
-			System.out.println("compt pp = "+compt);
-
-			return 0;
+		
+		if (copiePlateau[i][j]==1){
+			System.out.println("pion blanc (total interne) -> "+compteurInterne);
+			return;
 		}
-		return compteur;
+		
+		
 	}
 
 public int nombrePoints(Case courante) {
 	compt = 0;
+	compteurInterne=0;
+	
 	//Cree un compteur de cases
 	//int i = courante.getI(); 
 	//int j = courante.getJ();
@@ -153,9 +160,13 @@ public int nombrePoints(Case courante) {
 			return;
 		}
 		System.out.println("direction = "+couple.getValue());
-		compt += checkRecursif(1,i,j, couple.getValue());
-		//System.out.println(couple.getValue()+" , "+compt);
+		compteurInterne += 1;
+		System.out.println("pion bleu -> "+compteurInterne);
+		checkRecursif(i,j, couple.getValue());
+		compt+=compteurInterne;
+		compteurInterne=0;
 	});
+	System.out.println("Total: "+compt);
 	return compt;
 		
 	}
