@@ -8,13 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.sun.prism.paint.Color;
-
 import Commun.Commun;
 import Commun.Commun.Direction;
 import Joueur.Joueur;
 import Joueur.OrdiAmeliore;
-import Joueur.OrdiRandom;
 
 
 public class Plateau extends JPanel{

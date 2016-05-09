@@ -11,6 +11,7 @@ public class OrdiAmeliore {
 	
 	private int[][] copiePlateau = new int[8][8];
 	private int compt;
+	private int poss;
 	private Case bestCase;
 	
 	public OrdiAmeliore(Plateau plat){
@@ -116,18 +117,20 @@ public class OrdiAmeliore {
 		if (i < 0 || i > 7 || j > 7 || j < 0 ) return compteur;
 
 		if (copiePlateau[i][j]==1){
-			//System.out.println("hi");
-			//System.out.println(compteur);
+			System.out.println("compt pbc = "+compt);
+
 			return compteur;
 		}
 		if (copiePlateau[i][j] == 2){
-			//System.out.println("check");
 			compteur+=1;
-			//System.out.println(compteur);
-
+			System.out.println("récursif");
+			
 			checkRecursif(compteur, i+direction.getI(),j+direction.getJ(), direction);
+			System.out.println("compt pbl = "+compt);
 		}
 		if (copiePlateau[i][j] == 0){
+			System.out.println("compt pp = "+compt);
+
 			return 0;
 		}
 		return compteur;
@@ -149,7 +152,7 @@ public int nombrePoints(Case courante) {
 		if (copiePlateau[i][j] == 0 || copiePlateau[i][j] == 1){
 			return;
 		}
-		
+		System.out.println("direction = "+couple.getValue());
 		compt += checkRecursif(1,i,j, couple.getValue());
 		//System.out.println(couple.getValue()+" , "+compt);
 	});
