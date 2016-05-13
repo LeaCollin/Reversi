@@ -20,7 +20,7 @@ public class Pion extends JPanel {
 	public Pion(Couleur couleur) {
         this.couleur = couleur;
         setOpaque(false);
-        switch (couleur) {
+        switch (couleur) {						//Definit la couleur du poin en fonction de l'appartenance de la cas à tel ou tel joueur
         case Blanc :
             setForeground(Color.LIGHT_GRAY);
             setBackground(Color.WHITE);
@@ -29,7 +29,7 @@ public class Pion extends JPanel {
             setForeground(Color.BLUE);
             setBackground(Color.CYAN);
             break;
-        case Attente :
+        case Attente :							//Permet au joueur de voir où l'IA a pose son pion avant l'actualisation du plateau.
         	setForeground(Color.BLACK);
         	setBackground(Color.GREEN);
         	break;

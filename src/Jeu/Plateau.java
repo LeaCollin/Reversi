@@ -20,13 +20,18 @@ public class Plateau extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 2516116318800873412L;
+	
 	private int taille;
+	
 	public Joueur joueurBlanc;
 	public Joueur joueurNoir; //plus simple de crï¿½er une classe jouer ?
 	private ArrayList<Case> plateauCase;
+	private ArrayList<Case> casesposs;
+	
+	/*Deux types d'IA possibles */
 	//private OrdiRandom ordi;
 	private OrdiAmeliore ordi;
-	private ArrayList<Case> casesposs;
+	
 	 
 	public Plateau(int taille){
 		casesposs = new ArrayList<Case>();
@@ -55,6 +60,7 @@ public class Plateau extends JPanel{
 	 }
 		
 	private void init(){
+		//Mise en place des quatres cases initiales au centre du plateau
 		 getCase(3,3).add(creerPion(Couleur.Blue));
 		 getCase(3,3).setEtat(true);
 	     getCase(3,4).add(creerPion(Couleur.Blanc));
@@ -72,13 +78,13 @@ public class Plateau extends JPanel{
 	}
 	
 	public Pion getPion(int i, int j){
-		//Avoir accï¿½s ï¿½ n'importe quel piont du plateau
+		//Avoir acces a n'importe quel piont du plateau
 		Case c = getCase(i,j);
 	    return (Pion) c.getComponent(0) ;
 	}
 	
 	public Pion getPion(Case c){
-		//Avoir accï¿½s au pion d'une case prï¿½cise
+		//Avoir acces au pion d'une case precise
 	    return (Pion) c.getComponent(0) ;
 	}
 		 
@@ -88,7 +94,7 @@ public class Plateau extends JPanel{
 	}
 	
 	public Case ajouterPion(Case c, Couleur color){
-		//retourne la case oï¿½ est posï¿½ le nouveau pion (mieux que de retourner pion car on ne peut pas avoir les coordonnï¿½es d'un pion)
+		//retourne la case ou est pose le nouveau pion (mieux que de retourner pion car on ne peut pas avoir les coordonnees d'un pion)
 		if (!(c.getComponentCount()!=0 && c.isEtat())){
 			Pion p = new Pion(color);
 			getCase(c.getI(),c.getJ()).add(p);
@@ -137,7 +143,7 @@ public class Plateau extends JPanel{
 		//Recupere la couleur du pion de la case
 		Couleur color = getPion(c).getCouleur();
 			
-		c.getVoisins().entrySet().stream().forEach((pair) -> { //pair.getValue() => direction
+		c.getVoisins().entrySet().stream().forEach((pair) -> { 			//pair.getValue() => direction
 
 			int index = c.getIndexArrayList() + pair.getValue().getI()*Commun.NOMBRECOLONNES+pair.getValue().getJ();
 			
@@ -146,7 +152,7 @@ public class Plateau extends JPanel{
 			
 			Case caseSuivante = plateauCase.get(index);
 
-			//ne pas passer Ã  la ligne
+			//ne pas passer a  la ligne
 			if (!c.getVoisins().containsKey(caseSuivante)){
 				return;
 			}
@@ -210,7 +216,6 @@ public class Plateau extends JPanel{
 
 	
 	public void actualiserPlateau(){
-		int test;
 		for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
             	if (getCase(i,j).isSelectionnee()){
@@ -260,6 +265,7 @@ public class Plateau extends JPanel{
 	}
 
 	public int score(){
+		//gestion du score des deux joueurs
 		joueurNoir.setScore(0);
 		joueurBlanc.setScore(0);
 		for(int i=0; i<taille; i++){
@@ -340,8 +346,9 @@ public class Plateau extends JPanel{
 	}*/
 	
 	public ArrayList<Case> TourJoueur(Case c){
+		//gestion du tour du joueur
 		if (joueurNoir.isSonTour()){
-			System.out.println("---- tourNoir ---- \n");
+			System.out.println("---- Tour Joueur ---- \n");
 			casesposs = new ArrayList<Case>();
 
 			ajouterPion(c, Couleur.Blue);
@@ -353,11 +360,10 @@ public class Plateau extends JPanel{
 			c.checkCouleurPion(this,c);
 			score();
 			
-			System.out.println("Score Bleu : "+joueurNoir.getScore());
-			System.out.println("Score Blanc : "+joueurBlanc.getScore()+"\n");
+			System.out.println("Score Joueur : "+joueurNoir.getScore());
+			System.out.println("Score Ordinateur : "+joueurBlanc.getScore()+"\n");
 			actualiserPlateau();	
 			afficherLesPossibilites();
-			//System.out.println(casesposs);
 
 			if (casesposs.size() == 0 ){
 				return casesposs;
@@ -368,11 +374,11 @@ public class Plateau extends JPanel{
 	}
 	
 	public Case initTourIA(){
-		System.out.println("---- Tour Ordi ---- \n");
+		//Gere l'apparition du point vert qui temportise le jeu de l'IA
+		System.out.println("---- Tour Ordinateur ---- \n");
 		Case c = ordi.jouer(casesposs,this);
 		if (c!=null){
 			c.setSelectionnee(false);
-			System.out.println("Cocuou point vert");
 			ajouterPion(c, Couleur.Attente);
 			updateUI();	
 		}
@@ -424,7 +430,7 @@ public class Plateau extends JPanel{
 		}
 		
 		afficherLesPossibilites();
-		
+		//gestion du tour de l'ordinateur
 		if (casesposs.size() == 0){
 			joueurNoir.setSonTour(false);
 			joueurBlanc.setSonTour(true);
@@ -433,7 +439,6 @@ public class Plateau extends JPanel{
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -452,7 +457,8 @@ public class Plateau extends JPanel{
 	
 	
 	
-	public boolean finDePartie(){ //gerer possibilite ou plateau non plein mais plus de possibilitï¿½
+	public boolean finDePartie(){ 
+		//Lorsque le plateau est plein la partie est finie
 		int compt = 0;
 		for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){	

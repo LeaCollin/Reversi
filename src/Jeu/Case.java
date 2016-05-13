@@ -1,5 +1,5 @@
 package Jeu;
-//Classe ok ne plus toucher
+
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -17,9 +17,6 @@ import Commun.*;
 
 public class Case extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3347630978748093310L;
 	private boolean selectionnee;
 	private int i;							// ligne
@@ -41,13 +38,13 @@ public class Case extends JPanel{
 		return this.i*Commun.NOMBRECOLONNES+this.j;
 	}
 	
-	//Création d'une liste contenant les cases voisines lors de la création de la grille et du plateau
+	//Creation d'une liste contenant les cases voisines lors de la creation de la grille et du plateau
 	public void sAjouterAuxVoisins(ArrayList<Case> listeCase){
 		
 		if(this.j > 0) {
-			// Ajoute à la case courante, la case qui la précéde, dans ses voisins.
+			// Ajoute a�la case courante, la case qui la precede, dans ses voisins.
 			this.voisins.put(listeCase.get(this.getIndexArrayList()-1), Commun.Direction.getDirection(0, -1));
-			// Sachant qu'a la création de la case precedente, la case courante n'existait pas, on l'ajoute maintenant aux voisins de la case precedente.
+			// Sachant qu'a la creation de la case precedente, la case courante n'existait pas, on l'ajoute maintenant aux voisins de la case precedente.
 			listeCase.get(this.getIndexArrayList()-1).voisins.put(this, Commun.Direction.getDirection(0, 1));
 			
 			if(this.i > 0) {
@@ -118,7 +115,7 @@ public class Case extends JPanel{
     
     @Override
     public void paintComponent(Graphics g){
-    	//Initialise les couleurs du tableau initial
+    	//D�finit le graphisme d'une case
         Paint paint;
         Graphics2D g2d;
         if (g instanceof Graphics2D) {

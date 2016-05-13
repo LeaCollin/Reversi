@@ -53,7 +53,6 @@ public class Fenetre extends JFrame{
 
 				 if(option == JOptionPane.OK_OPTION){
 					 dispose();
-					 //Essayer d'effacer la console??
 					 new Fenetre();
 					
 				 }
@@ -69,13 +68,13 @@ public class Fenetre extends JFrame{
 		 });
 		 this.Jeu.add(Quitter);
 		 
-		//Menu À propos
+		//Menu a propos
 
 		//Ajout de ce que doit faire le "?"
 		 point.addActionListener(new ActionListener(){
 		    public void actionPerformed(ActionEvent arg0) {
 		        JOptionPane jop = new JOptionPane();
-		        String apropos = "Ce jeu a ete cree par \n Melanie Petitcuenot (la plus belle) et Lea Collin \nEleves de 3eme annee Informatique a Polytech Lyon";     
+		        String apropos = "Ce jeu a ete cree par \n Melanie Petitcuenot et Lea Collin \nEleves de 3eme annee Informatique a Polytech Lyon";     
 		        jop.showMessageDialog(null, apropos, "A propos", JOptionPane.INFORMATION_MESSAGE);        
 		      }            
 		    });
