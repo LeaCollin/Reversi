@@ -25,7 +25,7 @@ public class Pion extends JPanel {
             setForeground(Color.LIGHT_GRAY);
             setBackground(Color.WHITE);
             break;
-        case Blue :
+        case Bleu :
             setForeground(Color.BLUE);
             setBackground(Color.CYAN);
             break;

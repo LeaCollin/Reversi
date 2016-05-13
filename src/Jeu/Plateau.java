@@ -38,7 +38,7 @@ public class Plateau extends JPanel{
 		this.taille = taille;
 		//ordi = new OrdiRandom();
 		joueurBlanc = new Joueur(Couleur.Blanc, false);
-		joueurNoir = new Joueur(Couleur.Blue, true);
+		joueurNoir = new Joueur(Couleur.Bleu, true);
 		plateauCase = new ArrayList<Case>();
 		setLayout(new GridLayout(taille, taille));
         for(int i=0; i<taille; i++){
@@ -61,13 +61,13 @@ public class Plateau extends JPanel{
 		
 	private void init(){
 		//Mise en place des quatres cases initiales au centre du plateau
-		 getCase(3,3).add(creerPion(Couleur.Blue));
+		 getCase(3,3).add(creerPion(Couleur.Bleu));
 		 getCase(3,3).setEtat(true);
 	     getCase(3,4).add(creerPion(Couleur.Blanc));
 	     getCase(3,4).setEtat(true);
 	     getCase(4,3).add(creerPion(Couleur.Blanc));
 	     getCase(4,3).setEtat(true);
-	     getCase(4,4).add(creerPion(Couleur.Blue));
+	     getCase(4,4).add(creerPion(Couleur.Bleu));
 	     getCase(4,4).setEtat(true);
 	     afficherLesPossibilites();
 
@@ -123,7 +123,7 @@ public class Plateau extends JPanel{
 		 for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				if (joueurNoir.isSonTour() && getCase(i,j).isEtat()){
-					if (getPion(i,j).getCouleur() == Couleur.Blue){
+					if (getPion(i,j).getCouleur() == Couleur.Bleu){
 						possibilite(getCase(i,j));
 					}
 			 	}
@@ -218,9 +218,6 @@ public class Plateau extends JPanel{
 	public void actualiserPlateau(){
 		for(int i=0; i<taille; i++){
             for(int j=0; j<taille; j++){
-            	if (getCase(i,j).isSelectionnee()){
-            		test=1;
-            	}
             	getCase(i,j).setSelectionnee(false);
             }
 		}
@@ -271,7 +268,7 @@ public class Plateau extends JPanel{
 		for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){
 				 if (getCase(i,j).isEtat()){
-					if (getPion(i,j).getCouleur() == Couleur.Blue){
+					if (getPion(i,j).getCouleur() == Couleur.Bleu){
 						joueurNoir.setScore(joueurNoir.getScore()+1);			 
 					 
 				 	}
@@ -351,7 +348,7 @@ public class Plateau extends JPanel{
 			System.out.println("---- Tour Joueur ---- \n");
 			casesposs = new ArrayList<Case>();
 
-			ajouterPion(c, Couleur.Blue);
+			ajouterPion(c, Couleur.Bleu);
 			updateUI();				
 			
 			joueurNoir.setSonTour(false);
@@ -414,7 +411,7 @@ public class Plateau extends JPanel{
 			fin += "\nScore Bleu : "+joueurNoir.getScore();
 			fin += "\nScore Blanc : "+joueurBlanc.getScore()+"\n";
 			if (joueurNoir.getScore() < joueurBlanc.getScore()){
-				fin += "\nDommage l'ordi a gagne !!";
+				fin += "\nDommage l'ordinateur a ete meilleur que vous !!";
 				img = new ImageIcon("images/looser.jpg");
 			}
 			else if(joueurNoir.getScore()==joueurBlanc.getScore()){
@@ -460,15 +457,23 @@ public class Plateau extends JPanel{
 	public boolean finDePartie(){ 
 		//Lorsque le plateau est plein la partie est finie
 		int compt = 0;
+		boolean ordi = true;
+		boolean joueur = true;
 		for(int i=0; i<taille; i++){
 			 for(int j=0; j<taille; j++){	
+				 if (getCase(i,j).isEtat() == true && getPion(i,j).getCouleur() == Couleur.Bleu){
+					 joueur = false;
+				 }
+				 if (getCase(i,j).isEtat() == true && getPion(i,j).getCouleur() == Couleur.Blanc){
+					 ordi = false;
+				 }
 				 if (getCase(i,j).isEtat()){
 					 compt +=1;
 				 }
 			 }
 		}
 		
-		if (compt == 64){
+		if (compt == 64 || ordi == true || joueur == true){
 			return true;
 		}
 		return false;

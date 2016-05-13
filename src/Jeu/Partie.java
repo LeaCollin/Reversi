@@ -10,7 +10,7 @@ public class Partie {
 	private Boolean tourBlanc;
 	
 	public Partie(){
-		this.j1=new Joueur(Couleur.Blue, true);			// Joueur
+		this.j1=new Joueur(Couleur.Bleu, true);			// Joueur
 		this.j2=new Joueur(Couleur.Blanc, false);		// IA
 		this.p=new Plateau(8);	
 		this.tourBlanc=false;

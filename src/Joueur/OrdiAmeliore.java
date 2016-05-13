@@ -52,7 +52,7 @@ public class OrdiAmeliore {
             for(int j=0; j<8; j++){
             	Case c=plat.getCase(i, j);
             	if(c.isEtat()){
-            		if(plat.getPion(c).getCouleur()==Couleur.Blue){
+            		if(plat.getPion(c).getCouleur()==Couleur.Bleu){
             			copiePlateau[i][j]=2; //2 est le joueur bleu
             		} 
             		else copiePlateau[i][j]=1; //1 est le joueur blanc	

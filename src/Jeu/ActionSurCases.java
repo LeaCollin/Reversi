@@ -52,7 +52,7 @@ public class ActionSurCases implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		
 		try {
-				Thread.sleep(3000);				//Laisse un temps avant que l'IA ne joue
+				Thread.sleep(500);				//Laisse un temps avant que l'IA ne joue
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
