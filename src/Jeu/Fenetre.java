@@ -23,6 +23,7 @@ public class Fenetre extends JFrame{
 	
 	private JMenuItem Recommencer = new JMenuItem("Recommencer");
 	private JMenuItem Quitter = new JMenuItem("Quitter");
+	private JMenuItem Regles = new JMenuItem("Règles");
 	private JMenuItem point = new JMenuItem("?");
 
 	public Fenetre(){
@@ -41,7 +42,16 @@ public class Fenetre extends JFrame{
 	 public void menu(){
 		 
 		//On initialise nos menus 
-		//Attention on a besoin d'un listener
+		//On a besoin d'un listener
+		 Regles.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent arg0){
+				JOptionPane jop= new JOptionPane();
+				String regle ="Chacun à son tour, les joueurs vont poser un pion de leur couleur sur une case vide, adjacente a un pion adverse. \nChaque pion pose doit obligatoirement encadrer un ou plusieurs pions adverses avec un autre pion de sa couleur, deja place.\n\nIl retourne alors le ou les pions adverse(s) qu'il vient d'encadrer. Les pions ne sont ni retires du plateau, ni deplaces d'une case à l'autre.\n\nOn peut encadrer des pions adverses dans les huit directions et plusieurs pions peuvent etre encadres dans chaque direction.\n\nLe jeu s'arrête quand les deux joueurs ne peuvent plus poser de pion. On compte alors le nombre de pions. Le joueur ayant le plus grand nombre de pions de sa couleur sur le plateau a gagne."; 
+				jop.showMessageDialog(null, regle, "Regles du Reversi", JOptionPane.INFORMATION_MESSAGE);
+
+			 }
+		 });
+		//On a besoin d'un listener
 		 Recommencer.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent arg0){
 				 JOptionPane jop= new JOptionPane();
@@ -58,6 +68,7 @@ public class Fenetre extends JFrame{
 				 }
 			 }
 		 });
+		 this.Jeu.add(Regles); 
 		 this.Jeu.add(Recommencer); 
 		 this.Jeu.addSeparator();
 		//Pour quitter l'application
@@ -67,7 +78,7 @@ public class Fenetre extends JFrame{
 		     }
 		 });
 		 this.Jeu.add(Quitter);
-		 
+		
 		//Menu a propos
 
 		//Ajout de ce que doit faire le "?"

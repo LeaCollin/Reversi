@@ -94,13 +94,10 @@ public class OrdiAmeliore {
 		int score=0;
 		for (Case c : possibilite){
 			//if (c==null) return null;
-			System.out.println("score avant if : "+score );
 			int nb = nombrePoints(c);
-			System.out.println(c.toString()+" points: "+nb+"\n" );
 			if (score < nb){
 				bestCase = c;
 				score  = nb;
-				System.out.println("\n score ="+score +"\n bestcase = " +bestCase+"\n");
 			}
 		}
 		return bestCase;
@@ -115,26 +112,22 @@ public class OrdiAmeliore {
 		//Ne pas sortir du tableau
 		if (i < 0 || i > 7 || j > 7 || j < 0 ) {
 			compteurInterne=0;
-			System.out.println("hors du tableau -> "+compteurInterne);
 			return;
 		}
 
 		//Si on tombe dans le vide avant de rencontrer un autre blanc
 		if (copiePlateau[i][j] == 0){
 			compteurInterne=0;
-			System.out.println("case vide -> "+compteurInterne);
 			return;
 		}
 		if (copiePlateau[i][j] == 2){
 			compteurInterne+=1;
-			System.out.println("pion bleu -> "+compteurInterne);
 			
 			checkRecursif(i,j, direction);
 			return;
 		}
 		
 		if (copiePlateau[i][j]==1){
-			System.out.println("pion blanc (total interne) -> "+compteurInterne);
 			return;
 		}
 		
@@ -159,14 +152,11 @@ public int nombrePoints(Case courante) {
 		if (copiePlateau[i][j] == 0 || copiePlateau[i][j] == 1){
 			return;
 		}
-		System.out.println("direction = "+couple.getValue());
 		compteurInterne += 1;
-		System.out.println("pion bleu -> "+compteurInterne);
 		checkRecursif(i,j, couple.getValue());
 		compt+=compteurInterne;
 		compteurInterne=0;
 	});
-	System.out.println("Total: "+compt);
 	return compt;
 		
 	}

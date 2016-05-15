@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Jeu.Case;
-import Jeu.Plateau;
 
 public class OrdiRandom {
 	

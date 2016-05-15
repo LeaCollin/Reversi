@@ -139,7 +139,6 @@ public class Case extends JPanel{
 		
 		//Recupere la couleur du pion de la case courante
 		Couleur color = p.getPion(courante).getCouleur();
-				System.out.println(courante.getVoisins().values());
 			    courante.getVoisins().entrySet().stream().forEach((couple) -> {
 				// Cree liste cases
 		        ArrayList<Case> listeCases = new ArrayList<Case>();
